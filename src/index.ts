@@ -1,8 +1,9 @@
 require('./mystyles.scss');
-import { getPayloadString, setModeOptions, hideOnClickOutside, copyToClipboardFromElement } from "./utils";
+import { getPayloadString, setModeOptions, hideOnClickOutside, copyToClipboardFromElement, isSmallScreen } from "./utils";
 import { compress, decompress, compressAndEncrypt, decryptAndDecompress } from "./securepaste";
 import * as bulmaToast from "bulma-toast";
 import { Editor, CodeMirrorEditorObj, TUIEditorObj, setEditorMode } from "./editors";
+import { Pass } from "codemirror";
 
 function compressInput(input_str: string, passwordStr:string){
     if (passwordStr.length == 0){
@@ -20,9 +21,12 @@ function updateURLTextWithStats(
     input_str: string, 
     output_str: string, 
     shortmode: string, 
-    encodedWEncryption: boolean=false
+    encodedWEncryption: boolean = false
 ){
-    urlTextBoxElem.value = `file:///D:/Work/Random/random-programming/securepaste/securepaste/index2.html?${shortmode}${output_str}`;
+    const currentBaseURL = window.location.origin + window.location.pathname;
+    const isEncryptedIndicator = encodedWEncryption ? "A" : "B";
+    console.log(encodedWEncryption, isEncryptedIndicator);
+    urlTextBoxElem.value = `${currentBaseURL}?${shortmode}${isEncryptedIndicator}${output_str}`;
     const compression_ratio = output_str.length / input_str.length;
     urlCompressionStatsTextElem.innerHTML = `
     <p>Input Size: ${input_str.length} characters</p>
@@ -45,18 +49,38 @@ function compressAndUpdate(
     passwordStr: string = "",
 ){
     const input_str = activeEditorObj.getData();
-    const output_str = compressInput(input_str, encryptionPasswordTextBox.value);
-    updateURLTextWithStats(urlTextBoxElem, urlCompressionStatsTextElem, urlModalContainer, input_str, output_str, modeSelectorElem.value, passwordStr.length > 0);
+    const output_str = compressInput(input_str, passwordStr);
+    console.log(passwordStr);
+    updateURLTextWithStats(urlTextBoxElem, urlCompressionStatsTextElem, urlModalContainer, input_str, output_str, shortmode, passwordStr.length > 0);
 }
 
+function showModal(modalContainerElem: HTMLElement){
+    modalContainerElem.classList.add('is-active');
+}
+
+function hideModal(modalContainerElem: HTMLElement){
+    modalContainerElem.classList.remove('is-active');
+}
+
+// Remove whitespace if is small screen
+isSmallScreen() ? (document.getElementById("outer-container") as HTMLElement).classList.remove("is-fluid") : "";
+
 var payload = getPayloadString();
-var initialShortMode = "Ce";
+var initialShortMode = isSmallScreen() ? "A7" : "Ce";   // Javascript if is small screen else markdown
+var isEncrypted = false;
 
 var initialCodeStr = ""
 if (payload.length > 2){
     try{
         initialShortMode = payload.slice(0, 2);
-        initialCodeStr = decompress(payload.slice(2));
+        isEncrypted = (payload.slice(2,3) == "A");
+        if (!isEncrypted){
+            initialCodeStr = decompress(payload.slice(3));
+        } else {            
+            var decryptPasswordModalContainer = (document.getElementById('decryptModalContainer') as HTMLElement);
+            showModal(decryptPasswordModalContainer);
+            hideOnClickOutside(decryptPasswordModalContainer, 'decryptModalContainerBackground');
+        }
     } catch (err) {
         console.log(err);
         bulmaToast.toast({
@@ -87,7 +111,7 @@ var activeEditorObj: Editor;
 activeEditorObj = setEditorMode(allEditorObjs, null, modeSelectorElem.value, initialCodeStr);
 modeSelectorElem.addEventListener('change', (event) => {
     const shortmode = (event.target as HTMLInputElement).value;
-    activeEditorObj = setEditorMode(allEditorObjs, activeEditorObj, shortmode, initialCodeStr)
+    activeEditorObj = setEditorMode(allEditorObjs, activeEditorObj, shortmode, "")
 });
 
 const urlModalContainer = (document.getElementById('urlModalContainer') as HTMLElement);
@@ -105,7 +129,6 @@ submitButton.addEventListener('click', function (){
         encryptionPasswordTextBox,
         activeEditorObj,
         modeSelectorElem.value,
-        modeSelectorElem.value
     );
 });
 
@@ -122,13 +145,13 @@ encryptionPasswordTextBox.addEventListener('change', function(event){
     );
 })
 
-// urlCopyBtn.addEventListener('click', function(){
-//     copyToClipboardFromElement(urlTextBox);
-//     (document.getElementById('urltooltiptext') as HTMLElement).innerHTML = "Copied!";
-// });
-// urlCopyBtn.addEventListener('mouseout', function(){
-//     (document.getElementById('urltooltiptext') as HTMLElement).innerHTML = "Copy To Clipboard";
-// });
+urlCopyBtn.addEventListener('click', function(){
+    copyToClipboardFromElement(urlTextBox);
+    (document.getElementById('urltooltiptext') as HTMLElement).innerHTML = "Copied!";
+});
+urlCopyBtn.addEventListener('mouseout', function(){
+    (document.getElementById('urltooltiptext') as HTMLElement).innerHTML = "Copy To Clipboard";
+});
 
 var aboutModalContainer = (document.getElementById('aboutModalContainer') as HTMLElement);
 var aboutLinkElem = (document.getElementById('aboutModalLink') as HTMLElement);
@@ -136,3 +159,18 @@ aboutLinkElem.addEventListener('click', function (){
     aboutModalContainer.classList.add('is-active');
     hideOnClickOutside(aboutModalContainer, 'aboutModalContainerBackground');
 });
+
+var decryptPasswordTextBoxElem = (document.getElementById('decryptPasswordTextBox') as HTMLInputElement);
+var decryptPasswordBtn = (document.getElementById('decryptBtn') as HTMLButtonElement);
+decryptPasswordBtn.addEventListener('click', function(){
+    const passwordStr = decryptPasswordTextBoxElem.value;
+    try{
+        initialCodeStr = decryptAndDecompress(payload.slice(3), passwordStr);
+        hideModal(decryptPasswordModalContainer);
+        setEditorMode(allEditorObjs, activeEditorObj, modeSelectorElem.value, initialCodeStr);
+    } catch (err) {
+        decryptPasswordBtn.classList.add('is-danger');
+        decryptPasswordBtn.innerHTML = "Wrong password! Could not decrypt";
+    }
+})
+

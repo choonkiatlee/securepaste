@@ -1,5 +1,5 @@
-import Codemirror from "codemirror";
-import { loadStyleSheet, loadScript } from "./utils";
+import CodeMirror from "codemirror";
+import { loadStyleSheet, loadScript, isSmallScreen } from "./utils";
 import { modeInfo } from "./editorconfigs";
 import toastuiEditor from "@toast-ui/editor";
 import toastuiSyntaxHighlightPlugin from "@toast-ui/editor-plugin-code-syntax-highlight"
@@ -19,7 +19,7 @@ export interface Editor {
 export class CodeMirrorEditorObj implements Editor {
     initialised: boolean = false;
     name: string = "codemirror";
-    editor: Codemirror.Editor | null = null;
+    editor: CodeMirror.Editor | null = null;
     textAreaElem: HTMLTextAreaElement;
 
     constructor(textAreaElem: HTMLTextAreaElement){
@@ -30,9 +30,10 @@ export class CodeMirrorEditorObj implements Editor {
         const config = {
             lineNumbers: true,
         }
-        this.editor = Codemirror.fromTextArea(this.textAreaElem, config);
+        this.editor = CodeMirror.fromTextArea(this.textAreaElem, config);
         this.setEditorTheme("cobalt");
         this.setData(initialCodeStr);
+        // (document.getElementsByClassName('CodeMirror')[0] as HTMLElement).style.height = "100%";
     }
 
     hide(){
@@ -97,11 +98,10 @@ export class TUIEditorObj implements Editor {
     initialise(initialCodeStr: string){
         const Editor = toastui.Editor;
         // const syntaxHighlightPlugin = toastui.Editor.plugin["codeSyntaxHighlight"];
-        console.log(katexPlugin)
-        const editor = new toastuiEditor({
+        const editor = new Editor({
             el: this.tuiDivElem,
             height: '500px',
-            initialEditType: 'markdown',
+            initialEditType: isSmallScreen() ? 'wysiwyg' : 'markdown',
             previewStyle: 'vertical',
             usageStatistics: false,
             plugins: [],
@@ -153,36 +153,36 @@ export function setEditorMode(
     allEditorObjs: Record<string, Editor>, 
     activeEditorObj: Editor | null, 
     shortmode: string, 
-    initialCodeStr: string,
+    initialCodeStr: string = "",
 ){
     if (shortmode == "Ce"){   // Markdown
         var data = initialCodeStr;
-        if (activeEditorObj != undefined && activeEditorObj.name != "tui"){
-            data = hideEditorAndGetData(activeEditorObj)
+        if (activeEditorObj != null && activeEditorObj.name != "tui" && initialCodeStr.length == 0){
+            const currentData = hideEditorAndGetData(activeEditorObj);
+            data = currentData ? currentData : initialCodeStr;
         };
         const tuiEditorObj = allEditorObjs["tui"]
         if (!tuiEditorObj.isInitialised()){
-            tuiEditorObj.initialise(initialCodeStr);
+            tuiEditorObj.initialise(data);
         }
         tuiEditorObj.show();
         tuiEditorObj.setData(data);
         return tuiEditorObj;
     } else if (shortmode != "Ce"){
         var data = initialCodeStr;
-        if (activeEditorObj != undefined && activeEditorObj.name != "codemirror"){
+        if (activeEditorObj != null && activeEditorObj.name != "codemirror" && initialCodeStr.length == 0){
             data = hideEditorAndGetData(activeEditorObj)
         };
         const codeMirrorEditorObj: CodeMirrorEditorObj = (allEditorObjs["codemirror"] as CodeMirrorEditorObj);
-        console.log(codeMirrorEditorObj);
         if (!codeMirrorEditorObj.isInitialised()){
-            console.log("initialsing...");
             codeMirrorEditorObj.initialise(initialCodeStr);
-            console.log("initialising...")
         } else {
             if (codeMirrorEditorObj.isHidden()){
                 codeMirrorEditorObj.show();
-                codeMirrorEditorObj.setData(data);
             }
+        }
+        if (data.length > 0){
+            codeMirrorEditorObj.setData(data);
         }
         codeMirrorEditorObj.setEditorMode(shortmode);
         return codeMirrorEditorObj;

@@ -63,3 +63,8 @@ export function hideOnClickOutside(element: HTMLElement, backgroundId: string) {
 
     document.addEventListener('click', outsideClickListener)
 }
+
+export function isSmallScreen(): boolean{
+    var mq = window.matchMedia( "(max-width: 570px)" );
+    return mq.matches;
+}

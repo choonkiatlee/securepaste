@@ -1,7 +1,7 @@
 import * as base64 from "byte-base64";
 import * as pako from "pako";
 import * as nacl from "tweetnacl";
-import * as naclutil from "tweetnacl-util";
+import {decodeUTF8, encodeUTF8} from "tweetnacl-util";
 
 export function compress(input_str: string){
     return base64.bytesToBase64(pako.deflate(input_str));
@@ -20,7 +20,7 @@ export function decryptAndDecompress(inputStr: string, passwordStr: string){
 }
 
 function encrypt(messageBytes: Uint8Array, passwordStr: string){
-    const passwordBytes = naclutil.decodeUTF8(passwordStr);
+    const passwordBytes = decodeUTF8(passwordStr);
     const hashedPasswordBytes = nacl.hash(passwordBytes).slice(0,nacl.secretbox.keyLength);
     const nonce = nacl.randomBytes(nacl.secretbox.nonceLength);
     const box = nacl.secretbox(messageBytes, nonce, hashedPasswordBytes);
@@ -31,7 +31,7 @@ function encrypt(messageBytes: Uint8Array, passwordStr: string){
 }
 
 function decrypt(messageBytesWithNonce: Uint8Array, passwordStr: string){
-    const passwordBytes = naclutil.decodeUTF8(passwordStr);
+    const passwordBytes = decodeUTF8(passwordStr);
     const hashedPasswordBytes = nacl.hash(passwordBytes).slice(0,nacl.secretbox.keyLength);
     const nonce = messageBytesWithNonce.slice(0, nacl.secretbox.nonceLength);
     const message = messageBytesWithNonce.slice(

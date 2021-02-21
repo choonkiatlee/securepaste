@@ -40,7 +40,22 @@ module.exports = {
       filename: 'css/main.css'
     }),
   ],
-  optimization: {
-    minimize: false,
+  // optimization: {
+  //   minimize: false,
+  // },
+  externals: {
+    // Load some of the heaviest modules externally to reduce loading times
+    "katex":{
+        commonjs: "katex",
+        commonjs2: 'katex',
+        amd: 'katex',
+    },
+    "codemirror":"CodeMirror",
+    "@toast-ui/editor":{
+      commonjs: "toastui",
+      commonjs2: 'toastui',
+      amd: 'toastui',
+    },
+    "pako":"pako",
   }
 };
