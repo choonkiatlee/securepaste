@@ -46,11 +46,10 @@ function compressAndUpdate(
     encryptionPasswordTextBox: HTMLInputElement,
     activeEditorObj: Editor,
     shortmode: string,
-    passwordStr: string = "",
 ){
+    const passwordStr = encryptionPasswordTextBox.value;
     const input_str = activeEditorObj.getData();
     const output_str = compressInput(input_str, passwordStr);
-    console.log(passwordStr);
     updateURLTextWithStats(urlTextBoxElem, urlCompressionStatsTextElem, urlModalContainer, input_str, output_str, shortmode, passwordStr.length > 0);
 }
 
@@ -78,6 +77,8 @@ if (payload.length > 2){
             initialCodeStr = decompress(payload.slice(3));
         } else {            
             var decryptPasswordModalContainer = (document.getElementById('decryptModalContainer') as HTMLElement);
+            var decryptPasswordTextBoxElem = (document.getElementById('decryptPasswordTextBox') as HTMLInputElement);
+            decryptPasswordTextBoxElem.focus();
             showModal(decryptPasswordModalContainer);
             hideOnClickOutside(decryptPasswordModalContainer, 'decryptModalContainerBackground');
         }
@@ -120,8 +121,8 @@ const urlCopyBtn = (document.getElementById('urlCopyBtn') as HTMLButtonElement);
 const submitButton = (document.getElementById("getURLButton") as HTMLButtonElement);
 const encryptionPasswordTextBox = (document.getElementById('encryptionPasswordTxt') as HTMLInputElement);
 const urlCompressionStatsTextElem = (document.getElementById("urlCompressionStatsText") as HTMLInputElement);
+
 submitButton.addEventListener('click', function (){
-    // input_str = editor.getMarkdown();
     compressAndUpdate(
         urlTextBox,
         urlCompressionStatsTextElem,
@@ -133,7 +134,6 @@ submitButton.addEventListener('click', function (){
 });
 
 encryptionPasswordTextBox.addEventListener('change', function(event){
-    const passwordStr = (event.target as HTMLInputElement).value;
     compressAndUpdate(
         urlTextBox,
         urlCompressionStatsTextElem,
@@ -141,7 +141,6 @@ encryptionPasswordTextBox.addEventListener('change', function(event){
         encryptionPasswordTextBox,
         activeEditorObj,
         modeSelectorElem.value,
-        passwordStr
     );
 })
 
@@ -172,5 +171,33 @@ decryptPasswordBtn.addEventListener('click', function(){
         decryptPasswordBtn.classList.add('is-danger');
         decryptPasswordBtn.innerHTML = "Wrong password! Could not decrypt";
     }
-})
+});
+
+
+// Catch interesting keypresses
+document.onkeydown = keydown;
+
+function keydown(event: KeyboardEvent){
+  if (event.ctrlKey && (event.key == "S" || event.key == "s")){ //CTRL+s
+    compressAndUpdate(
+        urlTextBox,
+        urlCompressionStatsTextElem,
+        urlModalContainer,
+        encryptionPasswordTextBox,
+        activeEditorObj,
+        modeSelectorElem.value,
+    );
+    event.preventDefault();
+  }
+};
+
+decryptPasswordTextBoxElem.addEventListener("keyup", function(event: KeyboardEvent) {
+    // Number 13 is the "Enter" key on the keyboard
+    if (event.key === "Enter") {
+      // Cancel the default action, if needed
+      event.preventDefault();
+      // Trigger the button element with a click
+      decryptPasswordBtn.click();
+    }
+});
 
