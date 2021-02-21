@@ -10,7 +10,7 @@ function katexReplacer(katexOptions = {throwOnError: false}) {
                 throw new Error('Katex required. Please insert this into your HTML file.');
             }
             renderedHTML = katex.renderToString(code, katexOptions);
-            } catch (err) {
+        } catch (err) {
             renderedHTML = `Error occurred on process katex: ${err.message}`;
         }
         return renderedHTML;
@@ -53,7 +53,6 @@ export function registerTUIKatexBtn(tuiEditor){
     const previewElem = document.getElementsByClassName('te-preview')[0];
     tuiEditor.addHook('change', () => {
         renderMathInElement(previewElem, option);
-        
     } );
 }
 

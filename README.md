@@ -35,4 +35,6 @@ npm run publish
 - 3rd character is used to indicate if the message is encrypted(`A`) or unencrypted(`B`)
 - Other characters used to encode the message.
 - Encrypting a message has a certain overhead. (Possible feature: prettier statistics about the output size: how many bytes for control chars, how many bytes for encryption overhead, how many bytes for actual compressed output etc.)
-- Due to typing issues, need to add `_container: HTMLElement;` to the `UI` interface object in `node_modules/@toast-ui/editor/index.ts`. Extremely ugly ><
+- Due to typing issues, need to add
+  - `_container: HTMLElement;` to the `UI` interface object in `node_modules/@toast-ui/editor/index.ts`. (line 442)
+  - `public static plugin: Record<string, Plugin>;` to the `Editor` interface object in `node_modules/@toast-ui/editor/index.ts`. (line 734)

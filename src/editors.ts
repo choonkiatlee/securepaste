@@ -97,16 +97,16 @@ export class TUIEditorObj implements Editor {
 
     initialise(initialCodeStr: string){
         const Editor = toastui.Editor;
-        // const syntaxHighlightPlugin = toastui.Editor.plugin["codeSyntaxHighlight"];
+        const syntaxHighlightPlugin = toastui.Editor.plugin["codeSyntaxHighlight"];
         const editor = new Editor({
             el: this.tuiDivElem,
             height: '500px',
             initialEditType: isSmallScreen() ? 'wysiwyg' : 'markdown',
             previewStyle: 'vertical',
             usageStatistics: false,
-            plugins: [],
+            plugins: [syntaxHighlightPlugin, katexPlugin()],
         });
-        // registerTUIKatexBtn(editor);
+        registerTUIKatexBtn(editor);
         editor.setMarkdown(initialCodeStr);
         this.editor = editor;
     }

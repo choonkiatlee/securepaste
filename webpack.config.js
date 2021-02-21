@@ -45,11 +45,10 @@ module.exports = {
   // },
   externals: {
     // Load some of the heaviest modules externally to reduce loading times
-    "katex":{
-        commonjs: "katex",
-        commonjs2: 'katex',
-        amd: 'katex',
-    },
+    // "katex":{
+    //   var: "katex",
+    //   externalsType: 'promise',
+    // },
     "codemirror":"CodeMirror",
     "@toast-ui/editor":{
       commonjs: "toastui",
