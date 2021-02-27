@@ -1,0 +1,136 @@
+// class Schedule implements ISchedule{
+
+// }
+
+export class TUICalendarObj implements Editor {
+    tuiDivElemId: string;
+    name: string = "tuical";
+    calendar: Calendar | null = null;
+
+    constructor(tuiDivElemId: string){
+        this.tuiDivElemId = tuiDivElemId;
+    }
+
+    initialise(initialCodeStr: string){
+        var templates = {
+            popupIsAllDay: function() {
+              return 'All Day';
+            },
+            popupStateFree: function() {
+              return 'Free';
+            },
+            popupStateBusy: function() {
+              return 'Busy';
+            },
+            titlePlaceholder: function() {
+              return 'Subject';
+            },
+            locationPlaceholder: function() {
+              return 'Location';
+            },
+            startDatePlaceholder: function() {
+              return 'Start date';
+            },
+            endDatePlaceholder: function() {
+              return 'End date';
+            },
+            popupSave: function() {
+              return 'Save';
+            },
+            popupUpdate: function() {
+              return 'Update';
+            },
+            popupDetailLocation: function(schedule: ISchedule) {
+              return 'Location : ' + schedule.location;
+            },
+            popupDetailUser: function(schedule: ISchedule) {
+              return 'User : ' + (schedule.attendees || []).join(', ');
+            },
+            popupDetailState: function(schedule: ISchedule) {
+              return 'State : ' + schedule.state || 'Busy';
+            },
+            popupDetailRepeat: function(schedule: ISchedule) {
+              return 'Repeat : ' + schedule.recurrenceRule;
+            },
+            popupDetailBody: function(schedule: ISchedule) {
+              return 'Body : ' + schedule.body;
+            },
+            popupEdit: function() {
+              return 'Edit';
+            },
+            popupDelete: function() {
+              return 'Delete';
+            }
+          };
+        
+        const cal = new Calendar('#calendar', {
+            defaultView: 'month',
+            scheduleView: true,
+            template: templates,
+            useCreationPopup: true,
+            useDetailPopup: true,
+        });
+        this.calendar = cal;
+
+        cal.on({
+            'clickSchedule': function(e) {
+                console.log('clickSchedule', e);
+            },
+            'beforeCreateSchedule': function(e: ISchedule) {
+                console.log('beforeCreateSchedule', e);
+                e.id = e.id ?? "default";
+                e.calendarId = e.calendarId ?? "default";
+                cal.createSchedules([e], false);
+                console.log( cal.getSchedule(e.id ?? "default", e.calendarId ?? "default") );
+                debugger;
+            },
+            'beforeUpdateSchedule': function(e: IEventObject) {
+                console.log('beforeUpdateSchedule', e);
+                e.schedule.start = e.start;
+                e.schedule.end = e.end;
+                cal.updateSchedule(e.schedule.id ?? "default", e.schedule.calendarId ?? "default", e.schedule);
+            },
+            'beforeDeleteSchedule': function(e) {
+                console.log('beforeDeleteSchedule', e);
+                cal.deleteSchedule(e.schedule.id ?? "default", e.schedule.calendarId ?? "default");
+            }
+        });
+    }
+
+    hide(){
+        this.calendar?.destroy();
+    }
+
+    show(){
+        // if (this.calendar == null){
+        //     this.initialise("");
+        // }
+        // if (this.editor == null){
+        //     throw new Error("Editor is not initialised"); // Only here to please TS
+        // }
+        // this.editor.show();
+        // this.editor.getUI()._container.hidden = false;
+    }
+
+    isHidden(){
+        // if (this.editor == null)
+        //     return true;
+        // return this.editor.getUI()._container.hidden;
+        return false
+    }
+
+    isInitialised(){
+        // return (this.editor != null)
+        return false;
+    }
+
+    getData(){
+        // return this.editor? this.editor.getMarkdown() : "";
+        // return this.calendar?.getSchedule("")
+        return ""
+    }
+
+    setData(data: string){
+        // return this.editor?.setMarkdown(data);
+    }
+}

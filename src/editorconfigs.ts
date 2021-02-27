@@ -162,4 +162,5 @@ export const modeInfo: Record<string, modeInfoSingle> = {
     "Cc":{name:"msgenny",mode: "mscgen", editor: "codemirror"},
     "Cd":{name:"WebAssembly",mode: "wast", editor: "codemirror"},
     "Ce":{name:"Markdown",mode: "markdown", editor: "tui"},
+    "Cf":{name:"Spreadsheet",mode: "spreadsheet", editor: "spreadsheet"},
 };

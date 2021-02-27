@@ -26,6 +26,45 @@ module.exports = {
           }
         ]
       },
+      // x-data-spreadsheet
+      {
+        test: /\.css$/,
+        use: [
+          {
+            "loader": MiniCssExtractPlugin.loader,
+            "options": {
+              publicPath: '',
+            }
+          },
+          'style-loader',
+          'css-loader',
+        ],
+      },
+      {
+        test: /\.less$/,
+        use: [
+          {
+            "loader": MiniCssExtractPlugin.loader,
+            "options": {
+              publicPath: '',
+            }
+          },
+          'css-loader',
+          'less-loader',
+        ],
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: [
+          'file-loader',
+        ],
+      },
+      {
+        test: /\.(woff|woff2|eot|ttf|otf)$/,
+        use: [
+          'file-loader',
+        ],
+      },
     ],
   },
   resolve: {
@@ -40,21 +79,27 @@ module.exports = {
       filename: 'css/main.css'
     }),
   ],
-  // optimization: {
-  //   minimize: false,
-  // },
-  externals: {
-    // Load some of the heaviest modules externally to reduce loading times
-    // "katex":{
-    //   var: "katex",
-    //   externalsType: 'promise',
-    // },
-    "codemirror":"CodeMirror",
-    "@toast-ui/editor":{
-      commonjs: "toastui",
-      commonjs2: 'toastui',
-      amd: 'toastui',
+  optimization: {
+    minimize: false,
+  },
+  externals: [
+    {
+      // Load some of the heaviest modules externally to reduce loading times
+      // "katex":{
+      //   var: "katex",
+      //   externalsType: 'promise',
+      // },
+      "codemirror":"CodeMirror",
+      // "@toast-ui/editor":{
+      //   root: "toastui",
+      //   commonjs: "toastui",
+      //   commonjs2: 'toastui',
+      //   amd: 'toastui',
+      // },
+      "pako":"pako",
+      "katex": "katex",
+      // "Spreadsheet": "x-data-spreadsheet",
+      "google": 'google',
     },
-    "pako":"pako",
-  }
+  ]
 };
