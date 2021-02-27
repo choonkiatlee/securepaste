@@ -1,4 +1,4 @@
-import { modeInfo } from "./editorconfigs";
+import { modeInfo, typeInfo } from "./editorconfigs";
 
 export function loadScript(src: string) {
     return new Promise(function (resolve, reject) {
@@ -41,13 +41,22 @@ export function copyToClipboardFromElement(inputElementToCopy: HTMLInputElement)
     document.execCommand("copy");
 }
 
-export function setModeOptions(selectElem: HTMLSelectElement){
-    Object.entries(modeInfo).forEach(element => {
+export function setSelectOptions(selectElem: HTMLSelectElement, reference_dict: Object){
+    Object.entries(reference_dict).forEach(element => {
         var el = document.createElement("option");
         el.textContent = element[1]["name"];
         el.value = element[0];
         selectElem.appendChild(el);
     });
+}
+
+export function setEditorSelectOptions(selectElem: HTMLSelectElement){
+    setSelectOptions(selectElem, typeInfo);
+}
+
+export function setCodeMirrorSelectOptions(selectElem: HTMLSelectElement){
+    setSelectOptions(selectElem, modeInfo)
+    debugger;
 }
 
 export function hideOnClickOutside(element: HTMLElement, backgroundId: string) {

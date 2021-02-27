@@ -1,10 +1,11 @@
 require('./mystyles.scss');
-import { getPayloadString, setModeOptions, hideOnClickOutside, copyToClipboardFromElement, isSmallScreen } from "./utils";
+import { getPayloadString, setEditorSelectOptions, hideOnClickOutside, copyToClipboardFromElement, isSmallScreen } from "./utils";
 import { compress, decompress, compressAndEncrypt, decryptAndDecompress } from "./securepaste";
 import * as bulmaToast from "bulma-toast";
 import { Editor, CodeMirrorEditorObj, TUIEditorObj, setEditorMode, SpreadsheetEditorObj } from "./editors";
 import { initialiseGoogleChart, drawCompressionStatsChart } from "./compressionDisplay";
 import { getShortenedURL } from "./urlshortening";
+import { EditorType } from "./editorconfigs";
 
 function compressInput(input_str: string, passwordStr:string){
     if (passwordStr.length == 0){
@@ -21,14 +22,13 @@ function updateURLTextWithStats(
     urlModalContainer: HTMLElement, 
     input_str: string, 
     output_str: string, 
-    shortmode: string,
+    shortEditorSelect: string,
     encodedWEncryption: boolean = false,
     shortenURL: boolean = false,
 ){
     const currentBaseURL = window.location.origin + window.location.pathname;
     const isEncryptedIndicator = encodedWEncryption ? "A" : "B";
     console.log(encodedWEncryption, isEncryptedIndicator);
-    const longurl = `${currentBaseURL}?${shortmode}${isEncryptedIndicator}${output_str}`;
 
     function updateStatsShortened(url: string){
         updateStatsCommon(url);
@@ -36,7 +36,8 @@ function updateURLTextWithStats(
     }
 
     function updateStatsLong(output_str: string){
-        const url = `${currentBaseURL}?${shortmode}${isEncryptedIndicator}${output_str}`;
+        const url = `${currentBaseURL}?${shortEditorSelect}${isEncryptedIndicator}${output_str}`;
+        console.log(url, output_str);
         updateStatsCommon(url);
         const encryption_overhead = encodedWEncryption ? 30 : 0;
         drawCompressionStatsChart(chartElem, input_str.length, 3, encryption_overhead, output_str.length);
@@ -48,10 +49,11 @@ function updateURLTextWithStats(
     }
 
     if (shortenURL){
+        const longurl = `${currentBaseURL}?${shortEditorSelect}${isEncryptedIndicator}${output_str}`;
         getShortenedURL(longurl, updateStatsShortened)
     }
     else {
-        updateStatsLong(longurl)
+        updateStatsLong(output_str)
     }
     hideOnClickOutside(urlModalContainer, 'urlModalContainerBackground');
 
@@ -63,13 +65,13 @@ function compressAndUpdate(
     urlModalContainer: HTMLElement,
     encryptionPasswordTextBox: HTMLInputElement,
     activeEditorObj: Editor,
-    shortmode: string,
+    shortEditorSelect: string,
     shortenURL: boolean = false,
 ){
     const passwordStr = encryptionPasswordTextBox.value;
     const input_str = activeEditorObj.getData();
     const output_str = compressInput(input_str, passwordStr);
-    updateURLTextWithStats(urlTextBoxElem, urlCompressionStatsTextElem, urlModalContainer, input_str, output_str, shortmode, passwordStr.length > 0, shortenURL);
+    updateURLTextWithStats(urlTextBoxElem, urlCompressionStatsTextElem, urlModalContainer, input_str, output_str, shortEditorSelect, passwordStr.length > 0, shortenURL);
 }
 
 function showModal(modalContainerElem: HTMLElement){
@@ -84,16 +86,17 @@ function hideModal(modalContainerElem: HTMLElement){
 isSmallScreen() ? (document.getElementById("outer-container") as HTMLElement).classList.remove("is-fluid") : "";
 
 var payload = getPayloadString();
-var initialShortMode = isSmallScreen() ? "A7" : "Cf"; //"Ce";   // Javascript if is small screen else markdown
+var initialShortEditorSelect = isSmallScreen() ? EditorType.CODE : EditorType.MARKDOWN;
 var isEncrypted = false;
 
 var initialCodeStr = ""
-if (payload.length > 2){
+if (payload.length > 1){
     try{
-        initialShortMode = payload.slice(0, 2);
-        isEncrypted = (payload.slice(2,3) == "A");
+        initialShortEditorSelect = (payload.slice(0, 1) as EditorType);
+        isEncrypted = (payload.slice(1,2) == "A");
+        console.log(initialShortEditorSelect, isEncrypted, payload.slice(2));
         if (!isEncrypted){
-            initialCodeStr = decompress(payload.slice(3));
+            initialCodeStr = decompress(payload.slice(2));
         } else {            
             var decryptPasswordModalContainer = (document.getElementById('decryptModalContainer') as HTMLElement);
             var decryptPasswordTextBoxElem = (document.getElementById('decryptPasswordTextBox') as HTMLInputElement);
@@ -113,14 +116,14 @@ if (payload.length > 2){
     }
 };
 
-const modeSelectorElem: HTMLSelectElement = (document.getElementById("modeSelector") as HTMLSelectElement);
-setModeOptions(modeSelectorElem);
-modeSelectorElem.value = initialShortMode;
+const editorSelectorElem: HTMLSelectElement = (document.getElementById("editorSelector") as HTMLSelectElement);
+setEditorSelectOptions(editorSelectorElem);
+editorSelectorElem.value = initialShortEditorSelect;
 
-const textAreaElem: HTMLTextAreaElement = (document.getElementById("textAreaElem") as HTMLTextAreaElement);
+const codeMirrorDivElem: HTMLDivElement = (document.getElementById("codeMirrorDivElem") as HTMLDivElement);
 const tuiEditorDivElem: HTMLDivElement = (document.getElementById("tuiEditorDivElem") as HTMLDivElement);
 const spreadsheetEditorDivElem: HTMLDivElement = (document.getElementById("spreadsheetDivElem") as HTMLDivElement);
-const codeMirrorEditorObj = new CodeMirrorEditorObj(textAreaElem);
+const codeMirrorEditorObj = new CodeMirrorEditorObj(codeMirrorDivElem);
 const tuiEditorObj = new TUIEditorObj(tuiEditorDivElem);
 const spreadsheetEditorObj = new SpreadsheetEditorObj(spreadsheetEditorDivElem);
 
@@ -131,10 +134,10 @@ const allEditorObjs: Record<string, Editor> = {
 }
 
 var activeEditorObj: Editor;
-activeEditorObj = setEditorMode(allEditorObjs, null, modeSelectorElem.value, initialCodeStr);
-modeSelectorElem.addEventListener('change', (event) => {
-    const shortmode = (event.target as HTMLInputElement).value;
-    activeEditorObj = setEditorMode(allEditorObjs, activeEditorObj, shortmode, "")
+activeEditorObj = setEditorMode(allEditorObjs, null, editorSelectorElem.value, initialCodeStr);
+editorSelectorElem.addEventListener('change', (event) => {
+    const shortEditorSelect = (event.target as HTMLInputElement).value;
+    activeEditorObj = setEditorMode(allEditorObjs, activeEditorObj, shortEditorSelect, "")
 });
 
 const urlModalContainer = (document.getElementById('urlModalContainer') as HTMLElement);
@@ -154,7 +157,7 @@ submitButton.addEventListener('click', function (){
         urlModalContainer,
         encryptionPasswordTextBox,
         activeEditorObj,
-        modeSelectorElem.value,
+        editorSelectorElem.value,
         shortenURLCheckbox.checked,
     );
 });
@@ -166,7 +169,7 @@ shortenURLCheckbox.addEventListener('change', function(event){
         urlModalContainer,
         encryptionPasswordTextBox,
         activeEditorObj,
-        modeSelectorElem.value,
+        editorSelectorElem.value,
         (event.currentTarget as HTMLInputElement).checked,
     );
 })
@@ -178,7 +181,7 @@ encryptionPasswordTextBox.addEventListener('change', function(event){
         urlModalContainer,
         encryptionPasswordTextBox,
         activeEditorObj,
-        modeSelectorElem.value,
+        editorSelectorElem.value,
         shortenURLCheckbox.checked,
     );
 })
@@ -205,7 +208,7 @@ decryptPasswordBtn.addEventListener('click', function(){
     try{
         initialCodeStr = decryptAndDecompress(payload.slice(3), passwordStr);
         hideModal(decryptPasswordModalContainer);
-        setEditorMode(allEditorObjs, activeEditorObj, modeSelectorElem.value, initialCodeStr);
+        setEditorMode(allEditorObjs, activeEditorObj, editorSelectorElem.value, initialCodeStr);
     } catch (err) {
         decryptPasswordBtn.classList.add('is-danger');
         decryptPasswordBtn.innerHTML = "Wrong password! Could not decrypt";
@@ -224,8 +227,8 @@ function keydown(event: KeyboardEvent){
         urlModalContainer,
         encryptionPasswordTextBox,
         activeEditorObj,
-        modeSelectorElem.value,
-        shortenURLCheckbox.value == "on" ? true : false,
+        editorSelectorElem.value,
+        shortenURLCheckbox.checked,
     );
     event.preventDefault();
   }

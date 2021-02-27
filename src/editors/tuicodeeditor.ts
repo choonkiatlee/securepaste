@@ -15,7 +15,6 @@ export class TUIEditorObj implements Editor {
 
     initialise(initialCodeStr: string){
         const Editor = toastui.Editor;
-        debugger;
         const syntaxHighlightPlugin = toastui.Editor.plugin["codeSyntaxHighlight"];
         const katexPluginLoaded = katexPlugin();
         const editor = new Editor({
