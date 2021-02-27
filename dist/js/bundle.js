@@ -12419,7 +12419,7 @@ function drawCompressionStatsChart(
 }
 ;// CONCATENATED MODULE: ./src/urlshortening.ts
 function getShortenedURL(longurl, callback) {
-    fetch("http://tinyurl.com/api-create.php?url=" + longurl)
+    fetch("https://tinyurl.com/api-create.php?url=" + longurl)
         .then(function (r) { return r.text(); })
         .then(function (text) { return callback(text); });
 }
