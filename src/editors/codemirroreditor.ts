@@ -96,6 +96,17 @@ export class CodeMirrorEditorObj implements Editor {
                         </p>
                     </div>
                 </div>
+                <div class="field-body">
+                    <div class="field">
+                        <label class="label">Theme Selector</label>
+                        <p class="control is-expanded">
+                            <span class="select is-fullwidth">
+                                <select id="themeSelector">
+                                </select>
+                            </span>
+                        </p>
+                    </div>
+                </div>
             </div>
         `;
         wrapperElem.appendChild(newNavElem);
