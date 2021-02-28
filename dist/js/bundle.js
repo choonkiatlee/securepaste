@@ -3100,12 +3100,12 @@ var CodeMirrorEditorObj = /** @class */ (function () {
     };
     CodeMirrorEditorObj.prototype.setEditorTheme = function (theme) {
         var _this = this;
-        loadStyleSheet("./dist/codemirror/theme/" + theme + ".css").then(function () { var _a; (_a = _this.editor) === null || _a === void 0 ? void 0 : _a.setOption("theme", theme); }, function () { alert("failed"); });
+        loadStyleSheet("./codemirror/theme/" + theme + ".css").then(function () { var _a; (_a = _this.editor) === null || _a === void 0 ? void 0 : _a.setOption("theme", theme); }, function () { alert("failed"); });
     };
     CodeMirrorEditorObj.prototype.setEditorMode = function (shortmode) {
         var _this = this;
         var mode = modeInfo[shortmode]["mode"];
-        loadScript("./dist/codemirror/mode/" + mode + "/" + mode + ".js").then(function () { var _a; (_a = _this.editor) === null || _a === void 0 ? void 0 : _a.setOption("mode", mode); }, function () { alert("failed"); });
+        loadScript("./codemirror/mode/" + mode + "/" + mode + ".js").then(function () { var _a; (_a = _this.editor) === null || _a === void 0 ? void 0 : _a.setOption("mode", mode); }, function () { alert("failed"); });
     };
     CodeMirrorEditorObj.prototype.createExtraToolBarItems = function (toolBarDivElem) {
         var _this = this;
