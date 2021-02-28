@@ -2913,7 +2913,6 @@ var modeInfo = {
     "Cc": { name: "msgenny", mode: "mscgen" },
     "Cd": { name: "WebAssembly", mode: "wast" },
     "Ce": { name: "Markdown", mode: "markdown" },
-    // "Cf":{name:"Spreadsheet",mode: "spreadsheet"},
 };
 var typeInfo = {
     "A": { name: "Code" },
