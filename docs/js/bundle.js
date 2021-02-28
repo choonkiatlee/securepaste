@@ -2744,166 +2744,180 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 
-;// CONCATENATED MODULE: ./src/editorconfigs.ts
+;// CONCATENATED MODULE: ./src/editors/editorconfigs.ts
+var EditorType;
+(function (EditorType) {
+    EditorType["CODE"] = "A";
+    EditorType["MARKDOWN"] = "B";
+    EditorType["SPREADSHEET"] = "C";
+})(EditorType || (EditorType = {}));
+function typeEnumToString(typeEnum) {
+    var typeEnumToStringList = ["Code", "Text", "Spreadsheet"];
+    return typeEnumToStringList[typeEnum];
+}
 var modeInfo = {
-    "AB": { name: "APL", mode: "apl", editor: "codemirror" },
-    "AC": { name: "PGP", mode: "asciiarmor", editor: "codemirror" },
-    "AD": { name: "ASN.1", mode: "asn.1", editor: "codemirror" },
-    "AE": { name: "Asterisk", mode: "asterisk", editor: "codemirror" },
-    "AF": { name: "Brainfuck", mode: "brainfuck", editor: "codemirror" },
-    "AG": { name: "C", mode: "clike", editor: "codemirror" },
-    "AH": { name: "C++", mode: "clike", editor: "codemirror" },
-    "AI": { name: "Cobol", mode: "cobol", editor: "codemirror" },
-    "AJ": { name: "C#", mode: "clike", editor: "codemirror" },
-    "AK": { name: "Clojure", mode: "clojure", editor: "codemirror" },
-    "AL": { name: "ClojureScript", mode: "clojure", editor: "codemirror" },
-    "AM": { name: "Closure Stylesheets (GSS)", mode: "css", editor: "codemirror" },
-    "AN": { name: "CMake", mode: "cmake", editor: "codemirror" },
-    "AO": { name: "CoffeeScript", mode: "coffeescript", editor: "codemirror" },
-    "AP": { name: "Common Lisp", mode: "commonlisp", editor: "codemirror" },
-    "AQ": { name: "Cypher", mode: "cypher", editor: "codemirror" },
-    "AR": { name: "Cython", mode: "python", editor: "codemirror" },
-    "AS": { name: "Crystal", mode: "crystal", editor: "codemirror" },
-    "AT": { name: "CSS", mode: "css", editor: "codemirror" },
-    "AU": { name: "CQL", mode: "sql", editor: "codemirror" },
-    "AV": { name: "D", mode: "d", editor: "codemirror" },
-    "AW": { name: "Dart", mode: "dart", editor: "codemirror" },
-    "AX": { name: "diff", mode: "diff", editor: "codemirror" },
-    "AY": { name: "Django", mode: "django", editor: "codemirror" },
-    "AZ": { name: "Dockerfile", mode: "dockerfile", editor: "codemirror" },
-    "Aa": { name: "DTD", mode: "dtd", editor: "codemirror" },
-    "Ab": { name: "Dylan", mode: "dylan", editor: "codemirror" },
-    "Ac": { name: "EBNF", mode: "ebnf", editor: "codemirror" },
-    "Ad": { name: "ECL", mode: "ecl", editor: "codemirror" },
-    "Ae": { name: "edn", mode: "clojure", editor: "codemirror" },
-    "Af": { name: "Eiffel", mode: "eiffel", editor: "codemirror" },
-    "Ag": { name: "Elm", mode: "elm", editor: "codemirror" },
-    "Ah": { name: "Embedded JavaScript", mode: "htmlembedded", editor: "codemirror" },
-    "Ai": { name: "Embedded Ruby", mode: "htmlembedded", editor: "codemirror" },
-    "Aj": { name: "Erlang", mode: "erlang", editor: "codemirror" },
-    "Ak": { name: "Esper", mode: "sql", editor: "codemirror" },
-    "Al": { name: "Factor", mode: "factor", editor: "codemirror" },
-    "Am": { name: "FCL", mode: "fcl", editor: "codemirror" },
-    "An": { name: "Forth", mode: "forth", editor: "codemirror" },
-    "Ao": { name: "Fortran", mode: "fortran", editor: "codemirror" },
-    "Ap": { name: "F#", mode: "mllike", editor: "codemirror" },
-    "Aq": { name: "Gas", mode: "gas", editor: "codemirror" },
-    "Ar": { name: "Gherkin", mode: "gherkin", editor: "codemirror" },
-    "As": { name: "GitHub Flavored Markdown", mode: "gfm", editor: "codemirror" },
-    "At": { name: "Go", mode: "go", editor: "codemirror" },
-    "Au": { name: "Groovy", mode: "groovy", editor: "codemirror" },
-    "Av": { name: "HAML", mode: "haml", editor: "codemirror" },
-    "Aw": { name: "Haskell", mode: "haskell", editor: "codemirror" },
-    "Ax": { name: "Haskell (Literate)", mode: "haskell-literate", editor: "codemirror" },
-    "Ay": { name: "Haxe", mode: "haxe", editor: "codemirror" },
-    "Az": { name: "HXML", mode: "haxe", editor: "codemirror" },
-    "A0": { name: "ASP.NET", mode: "htmlembedded", editor: "codemirror" },
-    "A1": { name: "HTML", mode: "htmlmixed", editor: "codemirror" },
-    "A2": { name: "HTTP", mode: "http", editor: "codemirror" },
-    "A3": { name: "IDL", mode: "idl", editor: "codemirror" },
-    "A4": { name: "Pug", mode: "pug", editor: "codemirror" },
-    "A5": { name: "Java", mode: "clike", editor: "codemirror" },
-    "A6": { name: "Java Server Pages", mode: "htmlembedded", editor: "codemirror" },
-    "A7": { name: "JavaScript", mode: "javascript", editor: "codemirror" },
-    "A8": { name: "JSON", mode: "javascript", editor: "codemirror" },
-    "A9": { name: "JSON-LD", mode: "javascript", editor: "codemirror" },
-    "A+": { name: "JSX", mode: "jsx", editor: "codemirror" },
-    "A/": { name: "Jinja2", mode: "jinja2", editor: "codemirror" },
-    "BA": { name: "Julia", mode: "julia", editor: "codemirror" },
-    "BB": { name: "Kotlin", mode: "clike", editor: "codemirror" },
-    "BC": { name: "LESS", mode: "css", editor: "codemirror" },
-    "BD": { name: "LiveScript", mode: "livescript", editor: "codemirror" },
-    "BE": { name: "Lua", mode: "lua", editor: "codemirror" },
-    "BG": { name: "mIRC", mode: "mirc", editor: "codemirror" },
-    "BH": { name: "MariaDB SQL", mode: "sql", editor: "codemirror" },
-    "BI": { name: "Mathematica", mode: "mathematica", editor: "codemirror" },
-    "BJ": { name: "Modelica", mode: "modelica", editor: "codemirror" },
-    "BK": { name: "MUMPS", mode: "mumps", editor: "codemirror" },
-    "BL": { name: "MS SQL", mode: "sql", editor: "codemirror" },
-    "BM": { name: "mbox", mode: "mbox", editor: "codemirror" },
-    "BN": { name: "MySQL", mode: "sql", editor: "codemirror" },
-    "BO": { name: "Nginx", mode: "nginx", editor: "codemirror" },
-    "BP": { name: "NSIS", mode: "nsis", editor: "codemirror" },
-    "BQ": { name: "NTriples", mode: "ntriples", editor: "codemirror" },
-    "BR": { name: "Objective-C", mode: "clike", editor: "codemirror" },
-    "BS": { name: "Objective-C++", mode: "clike", editor: "codemirror" },
-    "BT": { name: "OCaml", mode: "mllike", editor: "codemirror" },
-    "BU": { name: "Octave", mode: "octave", editor: "codemirror" },
-    "BV": { name: "Oz", mode: "oz", editor: "codemirror" },
-    "BW": { name: "Pascal", mode: "pascal", editor: "codemirror" },
-    "BX": { name: "PEG.js", mode: "pegjs", editor: "codemirror" },
-    "BY": { name: "Perl", mode: "perl", editor: "codemirror" },
-    "BZ": { name: "PHP", mode: "php", editor: "codemirror" },
-    "Ba": { name: "Pig", mode: "pig", editor: "codemirror" },
-    "Bb": { name: "Plain Text", mode: "null", editor: "codemirror" },
-    "Bc": { name: "PLSQL", mode: "sql", editor: "codemirror" },
-    "Bd": { name: "PostgreSQL", mode: "sql", editor: "codemirror" },
-    "Be": { name: "PowerShell", mode: "powershell", editor: "codemirror" },
-    "Bf": { name: "Properties files", mode: "properties", editor: "codemirror" },
-    "Bg": { name: "ProtoBuf", mode: "protobuf", editor: "codemirror" },
-    "Bh": { name: "Python", mode: "python", editor: "codemirror" },
-    "Bi": { name: "Puppet", mode: "puppet", editor: "codemirror" },
-    "Bj": { name: "Q", mode: "q", editor: "codemirror" },
-    "Bk": { name: "R", mode: "r", editor: "codemirror" },
-    "Bl": { name: "reStructuredText", mode: "rst", editor: "codemirror" },
-    "Bm": { name: "RPM Changes", mode: "rpm", editor: "codemirror" },
-    "Bn": { name: "RPM Spec", mode: "rpm", editor: "codemirror" },
-    "Bo": { name: "Ruby", mode: "ruby", editor: "codemirror" },
-    "Bp": { name: "Rust", mode: "rust", editor: "codemirror" },
-    "Bq": { name: "SAS", mode: "sas", editor: "codemirror" },
-    "Br": { name: "Sass", mode: "sass", editor: "codemirror" },
-    "Bs": { name: "Scala", mode: "clike", editor: "codemirror" },
-    "Bt": { name: "Scheme", mode: "scheme", editor: "codemirror" },
-    "Bu": { name: "SCSS", mode: "css", editor: "codemirror" },
-    "Bv": { name: "Shell", mode: "shell", editor: "codemirror" },
-    "Bw": { name: "Sieve", mode: "sieve", editor: "codemirror" },
-    "Bx": { name: "Slim", mode: "slim", editor: "codemirror" },
-    "By": { name: "Smalltalk", mode: "smalltalk", editor: "codemirror" },
-    "Bz": { name: "Smarty", mode: "smarty", editor: "codemirror" },
-    "B0": { name: "Solr", mode: "solr", editor: "codemirror" },
-    "B1": { name: "SML", mode: "mllike", editor: "codemirror" },
-    "B2": { name: "Soy", mode: "soy", editor: "codemirror" },
-    "B3": { name: "SPARQL", mode: "sparql", editor: "codemirror" },
-    "B4": { name: "Spreadsheet", mode: "spreadsheet", editor: "codemirror" },
-    "B5": { name: "SQL", mode: "sql", editor: "codemirror" },
-    "B6": { name: "SQLite", mode: "sql", editor: "codemirror" },
-    "B7": { name: "Squirrel", mode: "clike", editor: "codemirror" },
-    "B8": { name: "Stylus", mode: "stylus", editor: "codemirror" },
-    "B9": { name: "Swift", mode: "swift", editor: "codemirror" },
-    "B+": { name: "sTeX", mode: "stex", editor: "codemirror" },
-    "B/": { name: "LaTeX", mode: "stex", editor: "codemirror" },
-    "CA": { name: "SystemVerilog", mode: "verilog", editor: "codemirror" },
-    "CB": { name: "Tcl", mode: "tcl", editor: "codemirror" },
-    "CC": { name: "Textile", mode: "textile", editor: "codemirror" },
-    "CD": { name: "TiddlyWiki", mode: "tiddlywiki", editor: "codemirror" },
-    "CE": { name: "Tiki wiki", mode: "tiki", editor: "codemirror" },
-    "CF": { name: "TOML", mode: "toml", editor: "codemirror" },
-    "CG": { name: "Tornado", mode: "tornado", editor: "codemirror" },
-    "CH": { name: "troff", mode: "troff", editor: "codemirror" },
-    "CI": { name: "TTCN", mode: "ttcn", editor: "codemirror" },
-    "CJ": { name: "TTCN_CFG", mode: "ttcn-cfg", editor: "codemirror" },
-    "CK": { name: "Turtle", mode: "turtle", editor: "codemirror" },
-    "CL": { name: "TypeScript", mode: "javascript", editor: "codemirror" },
-    "CM": { name: "TypeScript-JSX", mode: "jsx", editor: "codemirror" },
-    "CN": { name: "Twig", mode: "twig", editor: "codemirror" },
-    "CO": { name: "Web IDL", mode: "webidl", editor: "codemirror" },
-    "CP": { name: "VB.NET", mode: "vb", editor: "codemirror" },
-    "CQ": { name: "VBScript", mode: "vbscript", editor: "codemirror" },
-    "CR": { name: "Velocity", mode: "velocity", editor: "codemirror" },
-    "CS": { name: "Verilog", mode: "verilog", editor: "codemirror" },
-    "CT": { name: "VHDL", mode: "vhdl", editor: "codemirror" },
-    "CU": { name: "Vue.js Component", mode: "vue", editor: "codemirror" },
-    "CV": { name: "XML", mode: "xml", editor: "codemirror" },
-    "CW": { name: "XQuery", mode: "xquery", editor: "codemirror" },
-    "CX": { name: "Yacas", mode: "yacas", editor: "codemirror" },
-    "CY": { name: "YAML", mode: "yaml", editor: "codemirror" },
-    "CZ": { name: "Z80", mode: "z80", editor: "codemirror" },
-    "Ca": { name: "mscgen", mode: "mscgen", editor: "codemirror" },
-    "Cb": { name: "xu", mode: "mscgen", editor: "codemirror" },
-    "Cc": { name: "msgenny", mode: "mscgen", editor: "codemirror" },
-    "Cd": { name: "WebAssembly", mode: "wast", editor: "codemirror" },
-    "Ce": { name: "Markdown", mode: "markdown", editor: "tui" },
-    "Cf": { name: "Spreadsheet", mode: "spreadsheet", editor: "spreadsheet" },
+    "AB": { name: "APL", mode: "apl" },
+    "AC": { name: "PGP", mode: "asciiarmor" },
+    "AD": { name: "ASN.1", mode: "asn.1" },
+    "AE": { name: "Asterisk", mode: "asterisk" },
+    "AF": { name: "Brainfuck", mode: "brainfuck" },
+    "AG": { name: "C", mode: "clike" },
+    "AH": { name: "C++", mode: "clike" },
+    "AI": { name: "Cobol", mode: "cobol" },
+    "AJ": { name: "C#", mode: "clike" },
+    "AK": { name: "Clojure", mode: "clojure" },
+    "AL": { name: "ClojureScript", mode: "clojure" },
+    "AM": { name: "Closure Stylesheets (GSS)", mode: "css" },
+    "AN": { name: "CMake", mode: "cmake" },
+    "AO": { name: "CoffeeScript", mode: "coffeescript" },
+    "AP": { name: "Common Lisp", mode: "commonlisp" },
+    "AQ": { name: "Cypher", mode: "cypher" },
+    "AR": { name: "Cython", mode: "python" },
+    "AS": { name: "Crystal", mode: "crystal" },
+    "AT": { name: "CSS", mode: "css" },
+    "AU": { name: "CQL", mode: "sql" },
+    "AV": { name: "D", mode: "d" },
+    "AW": { name: "Dart", mode: "dart" },
+    "AX": { name: "diff", mode: "diff" },
+    "AY": { name: "Django", mode: "django" },
+    "AZ": { name: "Dockerfile", mode: "dockerfile" },
+    "Aa": { name: "DTD", mode: "dtd" },
+    "Ab": { name: "Dylan", mode: "dylan" },
+    "Ac": { name: "EBNF", mode: "ebnf" },
+    "Ad": { name: "ECL", mode: "ecl" },
+    "Ae": { name: "edn", mode: "clojure" },
+    "Af": { name: "Eiffel", mode: "eiffel" },
+    "Ag": { name: "Elm", mode: "elm" },
+    "Ah": { name: "Embedded JavaScript", mode: "htmlembedded" },
+    "Ai": { name: "Embedded Ruby", mode: "htmlembedded" },
+    "Aj": { name: "Erlang", mode: "erlang" },
+    "Ak": { name: "Esper", mode: "sql" },
+    "Al": { name: "Factor", mode: "factor" },
+    "Am": { name: "FCL", mode: "fcl" },
+    "An": { name: "Forth", mode: "forth" },
+    "Ao": { name: "Fortran", mode: "fortran" },
+    "Ap": { name: "F#", mode: "mllike" },
+    "Aq": { name: "Gas", mode: "gas" },
+    "Ar": { name: "Gherkin", mode: "gherkin" },
+    "As": { name: "GitHub Flavored Markdown", mode: "gfm" },
+    "At": { name: "Go", mode: "go" },
+    "Au": { name: "Groovy", mode: "groovy" },
+    "Av": { name: "HAML", mode: "haml" },
+    "Aw": { name: "Haskell", mode: "haskell" },
+    "Ax": { name: "Haskell (Literate)", mode: "haskell-literate" },
+    "Ay": { name: "Haxe", mode: "haxe" },
+    "Az": { name: "HXML", mode: "haxe" },
+    "A0": { name: "ASP.NET", mode: "htmlembedded" },
+    "A1": { name: "HTML", mode: "htmlmixed" },
+    "A2": { name: "HTTP", mode: "http" },
+    "A3": { name: "IDL", mode: "idl" },
+    "A4": { name: "Pug", mode: "pug" },
+    "A5": { name: "Java", mode: "clike" },
+    "A6": { name: "Java Server Pages", mode: "htmlembedded" },
+    "A7": { name: "JavaScript", mode: "javascript" },
+    "A8": { name: "JSON", mode: "javascript" },
+    "A9": { name: "JSON-LD", mode: "javascript" },
+    "A+": { name: "JSX", mode: "jsx" },
+    "A/": { name: "Jinja2", mode: "jinja2" },
+    "BA": { name: "Julia", mode: "julia" },
+    "BB": { name: "Kotlin", mode: "clike" },
+    "BC": { name: "LESS", mode: "css" },
+    "BD": { name: "LiveScript", mode: "livescript" },
+    "BE": { name: "Lua", mode: "lua" },
+    "BG": { name: "mIRC", mode: "mirc" },
+    "BH": { name: "MariaDB SQL", mode: "sql" },
+    "BI": { name: "Mathematica", mode: "mathematica" },
+    "BJ": { name: "Modelica", mode: "modelica" },
+    "BK": { name: "MUMPS", mode: "mumps" },
+    "BL": { name: "MS SQL", mode: "sql" },
+    "BM": { name: "mbox", mode: "mbox" },
+    "BN": { name: "MySQL", mode: "sql" },
+    "BO": { name: "Nginx", mode: "nginx" },
+    "BP": { name: "NSIS", mode: "nsis" },
+    "BQ": { name: "NTriples", mode: "ntriples" },
+    "BR": { name: "Objective-C", mode: "clike" },
+    "BS": { name: "Objective-C++", mode: "clike" },
+    "BT": { name: "OCaml", mode: "mllike" },
+    "BU": { name: "Octave", mode: "octave" },
+    "BV": { name: "Oz", mode: "oz" },
+    "BW": { name: "Pascal", mode: "pascal" },
+    "BX": { name: "PEG.js", mode: "pegjs" },
+    "BY": { name: "Perl", mode: "perl" },
+    "BZ": { name: "PHP", mode: "php" },
+    "Ba": { name: "Pig", mode: "pig" },
+    "Bb": { name: "Plain Text", mode: "null" },
+    "Bc": { name: "PLSQL", mode: "sql" },
+    "Bd": { name: "PostgreSQL", mode: "sql" },
+    "Be": { name: "PowerShell", mode: "powershell" },
+    "Bf": { name: "Properties files", mode: "properties" },
+    "Bg": { name: "ProtoBuf", mode: "protobuf" },
+    "Bh": { name: "Python", mode: "python" },
+    "Bi": { name: "Puppet", mode: "puppet" },
+    "Bj": { name: "Q", mode: "q" },
+    "Bk": { name: "R", mode: "r" },
+    "Bl": { name: "reStructuredText", mode: "rst" },
+    "Bm": { name: "RPM Changes", mode: "rpm" },
+    "Bn": { name: "RPM Spec", mode: "rpm" },
+    "Bo": { name: "Ruby", mode: "ruby" },
+    "Bp": { name: "Rust", mode: "rust" },
+    "Bq": { name: "SAS", mode: "sas" },
+    "Br": { name: "Sass", mode: "sass" },
+    "Bs": { name: "Scala", mode: "clike" },
+    "Bt": { name: "Scheme", mode: "scheme" },
+    "Bu": { name: "SCSS", mode: "css" },
+    "Bv": { name: "Shell", mode: "shell" },
+    "Bw": { name: "Sieve", mode: "sieve" },
+    "Bx": { name: "Slim", mode: "slim" },
+    "By": { name: "Smalltalk", mode: "smalltalk" },
+    "Bz": { name: "Smarty", mode: "smarty" },
+    "B0": { name: "Solr", mode: "solr" },
+    "B1": { name: "SML", mode: "mllike" },
+    "B2": { name: "Soy", mode: "soy" },
+    "B3": { name: "SPARQL", mode: "sparql" },
+    "B4": { name: "Spreadsheet", mode: "spreadsheet" },
+    "B5": { name: "SQL", mode: "sql" },
+    "B6": { name: "SQLite", mode: "sql" },
+    "B7": { name: "Squirrel", mode: "clike" },
+    "B8": { name: "Stylus", mode: "stylus" },
+    "B9": { name: "Swift", mode: "swift" },
+    "B+": { name: "sTeX", mode: "stex" },
+    "B/": { name: "LaTeX", mode: "stex" },
+    "CA": { name: "SystemVerilog", mode: "verilog" },
+    "CB": { name: "Tcl", mode: "tcl" },
+    "CC": { name: "Textile", mode: "textile" },
+    "CD": { name: "TiddlyWiki", mode: "tiddlywiki" },
+    "CE": { name: "Tiki wiki", mode: "tiki" },
+    "CF": { name: "TOML", mode: "toml" },
+    "CG": { name: "Tornado", mode: "tornado" },
+    "CH": { name: "troff", mode: "troff" },
+    "CI": { name: "TTCN", mode: "ttcn" },
+    "CJ": { name: "TTCN_CFG", mode: "ttcn-cfg" },
+    "CK": { name: "Turtle", mode: "turtle" },
+    "CL": { name: "TypeScript", mode: "javascript" },
+    "CM": { name: "TypeScript-JSX", mode: "jsx" },
+    "CN": { name: "Twig", mode: "twig" },
+    "CO": { name: "Web IDL", mode: "webidl" },
+    "CP": { name: "VB.NET", mode: "vb" },
+    "CQ": { name: "VBScript", mode: "vbscript" },
+    "CR": { name: "Velocity", mode: "velocity" },
+    "CS": { name: "Verilog", mode: "verilog" },
+    "CT": { name: "VHDL", mode: "vhdl" },
+    "CU": { name: "Vue.js Component", mode: "vue" },
+    "CV": { name: "XML", mode: "xml" },
+    "CW": { name: "XQuery", mode: "xquery" },
+    "CX": { name: "Yacas", mode: "yacas" },
+    "CY": { name: "YAML", mode: "yaml" },
+    "CZ": { name: "Z80", mode: "z80" },
+    "Ca": { name: "mscgen", mode: "mscgen" },
+    "Cb": { name: "xu", mode: "mscgen" },
+    "Cc": { name: "msgenny", mode: "mscgen" },
+    "Cd": { name: "WebAssembly", mode: "wast" },
+    "Ce": { name: "Markdown", mode: "markdown" },
+};
+var typeInfo = {
+    "A": { name: "Code" },
+    "B": { name: "Markdown" },
+    "C": { name: "Spreadsheet" },
 };
 
 ;// CONCATENATED MODULE: ./src/utils.ts
@@ -2944,13 +2958,20 @@ function copyToClipboardFromElement(inputElementToCopy) {
     /* Copy the text inside the text field */
     document.execCommand("copy");
 }
-function setModeOptions(selectElem) {
-    Object.entries(modeInfo).forEach(function (element) {
+function setSelectOptions(selectElem, reference_dict) {
+    Object.entries(reference_dict).forEach(function (element) {
         var el = document.createElement("option");
         el.textContent = element[1]["name"];
         el.value = element[0];
         selectElem.appendChild(el);
     });
+}
+function setEditorSelectOptions(selectElem) {
+    setSelectOptions(selectElem, typeInfo);
+}
+function setCodeMirrorSelectOptions(selectElem) {
+    setSelectOptions(selectElem, modeInfo);
+    debugger;
 }
 function hideOnClickOutside(element, backgroundId) {
     var outsideClickListener = function (event) {
@@ -3025,35 +3046,37 @@ var external_CodeMirror_default = /*#__PURE__*/__webpack_require__.n(external_Co
 
 
 
+
 var CodeMirrorEditorObj = /** @class */ (function () {
-    function CodeMirrorEditorObj(textAreaElem) {
+    function CodeMirrorEditorObj(divElem, toolBarDivElem) {
         this.initialised = false;
-        this.name = "codemirror";
+        this.type = EditorType.CODE;
         this.editor = null;
-        this.textAreaElem = textAreaElem;
+        this.divElem = divElem;
+        this.toolBarDivElem = toolBarDivElem;
+        this.createModeSelector();
+        this.hide();
     }
     CodeMirrorEditorObj.prototype.initialise = function (initialCodeStr) {
         var config = {
             lineNumbers: true,
         };
-        this.editor = external_CodeMirror_default().fromTextArea(this.textAreaElem, config);
+        var textAreaElem = document.getElementById("textAreaElem");
+        this.editor = external_CodeMirror_default().fromTextArea(textAreaElem, config);
+        this.editor.setSize(null, "80vh");
         this.setEditorTheme("cobalt");
         this.setData(initialCodeStr);
-        // (document.getElementsByClassName('CodeMirror')[0] as HTMLElement).style.height = "100%";
+        this.show();
     };
     CodeMirrorEditorObj.prototype.hide = function () {
-        if (this.editor == null) {
-            throw new Error("Editor Not Initialised Yet.");
-        }
-        var wrapperElem = this.editor.getWrapperElement();
-        wrapperElem.hidden = true;
+        // const wrapperElem = this.editor.getWrapperElement();
+        // wrapperElem.hidden = true;
+        this.divElem.hidden = true;
     };
     CodeMirrorEditorObj.prototype.show = function () {
-        if (this.editor == null) {
-            throw new Error("Editor Not Initialised Yet.");
-        }
-        var wrapperElem = this.editor.getWrapperElement();
-        wrapperElem.hidden = false;
+        // const wrapperElem = this.editor.getWrapperElement();
+        // wrapperElem.hidden = false;
+        this.divElem.hidden = false;
     };
     CodeMirrorEditorObj.prototype.isHidden = function () {
         if (this.editor == null) {
@@ -3074,16 +3097,38 @@ var CodeMirrorEditorObj = /** @class */ (function () {
     };
     CodeMirrorEditorObj.prototype.setEditorTheme = function (theme) {
         var _this = this;
-        loadStyleSheet("codemirror/theme/" + theme + ".css").then(function () { var _a; (_a = _this.editor) === null || _a === void 0 ? void 0 : _a.setOption("theme", theme); }, function () { alert("failed"); });
+        loadStyleSheet("./codemirror/theme/" + theme + ".css").then(function () { var _a; (_a = _this.editor) === null || _a === void 0 ? void 0 : _a.setOption("theme", theme); }, function () { alert("failed"); });
     };
     CodeMirrorEditorObj.prototype.setEditorMode = function (shortmode) {
         var _this = this;
         var mode = modeInfo[shortmode]["mode"];
-        loadScript("codemirror/mode/" + mode + "/" + mode + ".js").then(function () { var _a; (_a = _this.editor) === null || _a === void 0 ? void 0 : _a.setOption("mode", mode); }, function () { alert("failed"); });
+        loadScript("./codemirror/mode/" + mode + "/" + mode + ".js").then(function () { var _a; (_a = _this.editor) === null || _a === void 0 ? void 0 : _a.setOption("mode", mode); }, function () { alert("failed"); });
+    };
+    CodeMirrorEditorObj.prototype.createModeSelector = function () {
+        createTextArea(this.divElem);
+        this.createToolBar();
+    };
+    CodeMirrorEditorObj.prototype.createToolBar = function () {
+        var _this = this;
+        var newNavElem = document.createElement("div");
+        newNavElem.classList.add("navbar-item");
+        newNavElem.innerHTML = "\n            <div class=\"field is-horizontal\">\n                <div class=\"field-body\">\n                    <div class=\"field\">\n                        <label class=\"label\">Language Selector</label>\n                        <p class=\"control is-expanded\">\n                            <span class=\"select is-fullwidth\">\n                                <select id=\"langSelector\">\n                                </select>\n                            </span>\n                        </p>\n                    </div>\n                </div>\n            </div>\n        ";
+        this.toolBarDivElem.appendChild(newNavElem);
+        var langSelectElem = document.getElementById("langSelector");
+        setCodeMirrorSelectOptions(langSelectElem);
+        var self = this;
+        langSelectElem.addEventListener("change", function (event) {
+            var langSelect = event.target.value;
+            console.log(langSelect, modeInfo, modeInfo[langSelect]);
+            _this.setEditorMode(langSelect);
+        });
     };
     return CodeMirrorEditorObj;
 }());
 
+function createTextArea(divElem) {
+    divElem.innerHTML = "\n        <textarea id=\"textAreaElem\" hidden='true'></textarea>\n        ";
+}
 
 ;// CONCATENATED MODULE: external "katex"
 const external_katex_namespaceObject = katex;
@@ -3151,15 +3196,15 @@ function registerTUIKatexBtn(tuiEditor){
 ;// CONCATENATED MODULE: ./src/editors/tuicodeeditor.ts
 
 
+
 var TUIEditorObj = /** @class */ (function () {
     function TUIEditorObj(tuiDivElem) {
-        this.name = "tui";
+        this.type = EditorType.MARKDOWN;
         this.editor = null;
         this.tuiDivElem = tuiDivElem;
     }
     TUIEditorObj.prototype.initialise = function (initialCodeStr) {
         var Editor = toastui.Editor;
-        debugger;
         var syntaxHighlightPlugin = toastui.Editor.plugin["codeSyntaxHighlight"];
         var katexPluginLoaded = katexPlugin();
         var editor = new Editor({
@@ -12233,9 +12278,10 @@ if (window) {
 
 ;// CONCATENATED MODULE: ./src/editors/spreadsheeteditor.ts
 
+
 var SpreadsheetEditorObj = /** @class */ (function () {
     function SpreadsheetEditorObj(spreadsheetDivElem) {
-        this.name = "spreadsheet";
+        this.type = EditorType.SPREADSHEET;
         this.spreadsheet = null;
         this.spreadsheetDivElem = spreadsheetDivElem;
     }
@@ -12301,61 +12347,20 @@ var SpreadsheetEditorObj = /** @class */ (function () {
 
 
 
-function setEditorMode(allEditorObjs, activeEditorObj, shortmode, initialCodeStr) {
+function setEditorMode(allEditorObjs, activeEditorObj, shortEditorSelect, initialCodeStr) {
     if (initialCodeStr === void 0) { initialCodeStr = ""; }
-    if (shortmode == "Ce") { // Markdown
-        var data = initialCodeStr;
-        if (activeEditorObj != null && activeEditorObj.name != "tui" && initialCodeStr.length == 0) {
-            var currentData = hideEditorAndGetData(activeEditorObj);
-            data = currentData ? currentData : initialCodeStr;
-        }
-        ;
-        var tuiEditorObj = allEditorObjs["tui"];
-        if (!tuiEditorObj.isInitialised()) {
-            tuiEditorObj.initialise(data);
-        }
-        tuiEditorObj.show();
-        tuiEditorObj.setData(data);
-        return tuiEditorObj;
+    var data = initialCodeStr;
+    if (activeEditorObj != null && activeEditorObj.type != shortEditorSelect && initialCodeStr.length == 0) {
+        var currentData = hideEditorAndGetData(activeEditorObj);
+        data = currentData ? currentData : initialCodeStr;
     }
-    else if (shortmode == "Cf") {
-        var spreadsheetEditorObj = allEditorObjs["spreadsheet"];
-        if (!spreadsheetEditorObj.isInitialised()) {
-            spreadsheetEditorObj.initialise(initialCodeStr);
-        }
-        spreadsheetEditorObj.show();
-        return spreadsheetEditorObj;
-        // const tuiCalendarObj = allEditorObjs["tuical"]
-        // if (!tuiCalendarObj.isInitialised()){
-        //     tuiCalendarObj.initialise(initialCodeStr);
-        // }
-        // tuiCalendarObj.show();
-        // return tuiCalendarObj;
+    var newEditorObj = allEditorObjs[shortEditorSelect];
+    if (!newEditorObj.isInitialised()) {
+        newEditorObj.initialise(data);
     }
-    else if (shortmode != "Ce") {
-        var data = initialCodeStr;
-        if (activeEditorObj != null && activeEditorObj.name != "codemirror" && initialCodeStr.length == 0) {
-            data = hideEditorAndGetData(activeEditorObj);
-        }
-        ;
-        var codeMirrorEditorObj = allEditorObjs["codemirror"];
-        if (!codeMirrorEditorObj.isInitialised()) {
-            codeMirrorEditorObj.initialise(initialCodeStr);
-        }
-        else {
-            if (codeMirrorEditorObj.isHidden()) {
-                codeMirrorEditorObj.show();
-            }
-        }
-        if (data.length > 0) {
-            codeMirrorEditorObj.setData(data);
-        }
-        codeMirrorEditorObj.setEditorMode(shortmode);
-        return codeMirrorEditorObj;
-    }
-    else {
-        throw new Error("No Active Editor Object");
-    }
+    newEditorObj.show();
+    newEditorObj.setData(data);
+    return newEditorObj;
 }
 function hideEditorAndGetData(editorObj) {
     var data = "";
@@ -12377,7 +12382,7 @@ var external_google_default = /*#__PURE__*/__webpack_require__.n(external_google
 
 function initialiseGoogleChart(chartElem){
     external_google_default().charts.load('current', {packages: ['corechart', 'bar']});
-    external_google_default().charts.setOnLoadCallback(()=>{ drawBasic(chartElem, 0, 0, 0, 0) });
+    // google.charts.setOnLoadCallback(()=>{ drawCompressionStatsChart(chartElem, 0, 0, 0, 0) });
 }
 
 function drawCompressionStatsChart(
@@ -12432,6 +12437,7 @@ __webpack_require__(385);
 
 
 
+
 function compressInput(input_str, passwordStr) {
     if (passwordStr.length == 0) {
         return compress(input_str);
@@ -12440,19 +12446,19 @@ function compressInput(input_str, passwordStr) {
         return compressAndEncrypt(input_str, passwordStr);
     }
 }
-function updateURLTextWithStats(urlTextBoxElem, chartElem, urlModalContainer, input_str, output_str, shortmode, encodedWEncryption, shortenURL) {
+function updateURLTextWithStats(urlTextBoxElem, chartElem, urlModalContainer, input_str, output_str, shortEditorSelect, encodedWEncryption, shortenURL) {
     if (encodedWEncryption === void 0) { encodedWEncryption = false; }
     if (shortenURL === void 0) { shortenURL = false; }
     var currentBaseURL = window.location.origin + window.location.pathname;
     var isEncryptedIndicator = encodedWEncryption ? "A" : "B";
     console.log(encodedWEncryption, isEncryptedIndicator);
-    var longurl = currentBaseURL + "?" + shortmode + isEncryptedIndicator + output_str;
     function updateStatsShortened(url) {
         updateStatsCommon(url);
         drawCompressionStatsChart(chartElem, input_str.length, 0, 0, url.length);
     }
     function updateStatsLong(output_str) {
-        var url = currentBaseURL + "?" + shortmode + isEncryptedIndicator + output_str;
+        var url = currentBaseURL + "?" + shortEditorSelect + isEncryptedIndicator + output_str;
+        console.log(url, output_str);
         updateStatsCommon(url);
         var encryption_overhead = encodedWEncryption ? 30 : 0;
         drawCompressionStatsChart(chartElem, input_str.length, 3, encryption_overhead, output_str.length);
@@ -12462,19 +12468,20 @@ function updateURLTextWithStats(urlTextBoxElem, chartElem, urlModalContainer, in
         urlTextBoxElem.value = url;
     }
     if (shortenURL) {
+        var longurl = currentBaseURL + "?" + shortEditorSelect + isEncryptedIndicator + output_str;
         getShortenedURL(longurl, updateStatsShortened);
     }
     else {
-        updateStatsLong(longurl);
+        updateStatsLong(output_str);
     }
     hideOnClickOutside(urlModalContainer, 'urlModalContainerBackground');
 }
-function compressAndUpdate(urlTextBoxElem, chartElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, shortmode, shortenURL) {
+function compressAndUpdate(urlTextBoxElem, chartElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, shortEditorSelect, shortenURL) {
     if (shortenURL === void 0) { shortenURL = false; }
     var passwordStr = encryptionPasswordTextBox.value;
     var input_str = activeEditorObj.getData();
     var output_str = compressInput(input_str, passwordStr);
-    updateURLTextWithStats(urlTextBoxElem, urlCompressionStatsTextElem, urlModalContainer, input_str, output_str, shortmode, passwordStr.length > 0, shortenURL);
+    updateURLTextWithStats(urlTextBoxElem, urlCompressionStatsTextElem, urlModalContainer, input_str, output_str, shortEditorSelect, passwordStr.length > 0, shortenURL);
 }
 function showModal(modalContainerElem) {
     modalContainerElem.classList.add('is-active');
@@ -12485,15 +12492,16 @@ function hideModal(modalContainerElem) {
 // Remove whitespace if is small screen
 isSmallScreen() ? document.getElementById("outer-container").classList.remove("is-fluid") : "";
 var payload = getPayloadString();
-var initialShortMode = isSmallScreen() ? "A7" : "Cf"; //"Ce";   // Javascript if is small screen else markdown
+var initialShortEditorSelect = isSmallScreen() ? EditorType.CODE : EditorType.MARKDOWN;
 var isEncrypted = false;
 var initialCodeStr = "";
-if (payload.length > 2) {
+if (payload.length > 1) {
     try {
-        initialShortMode = payload.slice(0, 2);
-        isEncrypted = (payload.slice(2, 3) == "A");
+        initialShortEditorSelect = payload.slice(0, 1);
+        isEncrypted = (payload.slice(1, 2) == "A");
+        console.log(initialShortEditorSelect, isEncrypted, payload.slice(2));
         if (!isEncrypted) {
-            initialCodeStr = decompress(payload.slice(3));
+            initialCodeStr = decompress(payload.slice(2));
         }
         else {
             var decryptPasswordModalContainer = document.getElementById('decryptModalContainer');
@@ -12515,25 +12523,26 @@ if (payload.length > 2) {
     }
 }
 ;
-var modeSelectorElem = document.getElementById("modeSelector");
-setModeOptions(modeSelectorElem);
-modeSelectorElem.value = initialShortMode;
-var textAreaElem = document.getElementById("textAreaElem");
+var editorSelectorElem = document.getElementById("editorSelector");
+setEditorSelectOptions(editorSelectorElem);
+editorSelectorElem.value = initialShortEditorSelect;
+var codeMirrorDivElem = document.getElementById("codeMirrorDivElem");
 var tuiEditorDivElem = document.getElementById("tuiEditorDivElem");
 var spreadsheetEditorDivElem = document.getElementById("spreadsheetDivElem");
-var codeMirrorEditorObj = new CodeMirrorEditorObj(textAreaElem);
+var navBarEditorToolsOptionsElem = document.getElementById("navBarEditorToolsOptions");
+var codeMirrorEditorObj = new CodeMirrorEditorObj(codeMirrorDivElem, navBarEditorToolsOptionsElem);
 var tuiEditorObj = new TUIEditorObj(tuiEditorDivElem);
 var spreadsheetEditorObj = new SpreadsheetEditorObj(spreadsheetEditorDivElem);
 var allEditorObjs = {
-    codemirror: codeMirrorEditorObj,
-    tui: tuiEditorObj,
-    spreadsheet: spreadsheetEditorObj,
+    "A": codeMirrorEditorObj,
+    "B": tuiEditorObj,
+    "C": spreadsheetEditorObj,
 };
 var activeEditorObj;
-activeEditorObj = setEditorMode(allEditorObjs, null, modeSelectorElem.value, initialCodeStr);
-modeSelectorElem.addEventListener('change', function (event) {
-    var shortmode = event.target.value;
-    activeEditorObj = setEditorMode(allEditorObjs, activeEditorObj, shortmode, "");
+activeEditorObj = setEditorMode(allEditorObjs, null, editorSelectorElem.value, initialCodeStr);
+editorSelectorElem.addEventListener('change', function (event) {
+    var shortEditorSelect = event.target.value;
+    activeEditorObj = setEditorMode(allEditorObjs, activeEditorObj, shortEditorSelect, "");
 });
 var urlModalContainer = document.getElementById('urlModalContainer');
 var urlTextBox = document.getElementById('urlTextBox');
@@ -12545,13 +12554,13 @@ var urlCompressionStatsTextElem = document.getElementById("urlCompressionStatsTe
 var chartElem = document.getElementById('chart_div');
 initialiseGoogleChart(chartElem);
 submitButton.addEventListener('click', function () {
-    compressAndUpdate(urlTextBox, chartElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, modeSelectorElem.value, shortenURLCheckbox.checked);
+    compressAndUpdate(urlTextBox, chartElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, editorSelectorElem.value, shortenURLCheckbox.checked);
 });
 shortenURLCheckbox.addEventListener('change', function (event) {
-    compressAndUpdate(urlTextBox, chartElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, modeSelectorElem.value, event.currentTarget.checked);
+    compressAndUpdate(urlTextBox, chartElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, editorSelectorElem.value, event.currentTarget.checked);
 });
 encryptionPasswordTextBox.addEventListener('change', function (event) {
-    compressAndUpdate(urlTextBox, urlCompressionStatsTextElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, modeSelectorElem.value, shortenURLCheckbox.checked);
+    compressAndUpdate(urlTextBox, urlCompressionStatsTextElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, editorSelectorElem.value, shortenURLCheckbox.checked);
 });
 urlCopyBtn.addEventListener('click', function () {
     copyToClipboardFromElement(urlTextBox);
@@ -12573,7 +12582,7 @@ decryptPasswordBtn.addEventListener('click', function () {
     try {
         initialCodeStr = decryptAndDecompress(payload.slice(3), passwordStr);
         hideModal(decryptPasswordModalContainer);
-        setEditorMode(allEditorObjs, activeEditorObj, modeSelectorElem.value, initialCodeStr);
+        setEditorMode(allEditorObjs, activeEditorObj, editorSelectorElem.value, initialCodeStr);
     }
     catch (err) {
         decryptPasswordBtn.classList.add('is-danger');
@@ -12584,7 +12593,7 @@ decryptPasswordBtn.addEventListener('click', function () {
 document.onkeydown = keydown;
 function keydown(event) {
     if (event.ctrlKey && (event.key == "S" || event.key == "s")) { //CTRL+s
-        compressAndUpdate(urlTextBox, urlCompressionStatsTextElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, modeSelectorElem.value, shortenURLCheckbox.value == "on" ? true : false);
+        compressAndUpdate(urlTextBox, urlCompressionStatsTextElem, urlModalContainer, encryptionPasswordTextBox, activeEditorObj, editorSelectorElem.value, shortenURLCheckbox.checked);
         event.preventDefault();
     }
 }

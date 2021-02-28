@@ -5,7 +5,7 @@ import * as bulmaToast from "bulma-toast";
 import { Editor, CodeMirrorEditorObj, TUIEditorObj, setEditorMode, SpreadsheetEditorObj } from "./editors";
 import { initialiseGoogleChart, drawCompressionStatsChart } from "./compressionDisplay";
 import { getShortenedURL } from "./urlshortening";
-import { EditorType } from "./editorconfigs";
+import { EditorType } from "./editors/editorconfigs";
 
 function compressInput(input_str: string, passwordStr:string){
     if (passwordStr.length == 0){
@@ -123,20 +123,21 @@ editorSelectorElem.value = initialShortEditorSelect;
 const codeMirrorDivElem: HTMLDivElement = (document.getElementById("codeMirrorDivElem") as HTMLDivElement);
 const tuiEditorDivElem: HTMLDivElement = (document.getElementById("tuiEditorDivElem") as HTMLDivElement);
 const spreadsheetEditorDivElem: HTMLDivElement = (document.getElementById("spreadsheetDivElem") as HTMLDivElement);
-const codeMirrorEditorObj = new CodeMirrorEditorObj(codeMirrorDivElem);
+const navBarEditorToolsOptionsElem: HTMLDivElement = (document.getElementById("navBarEditorToolsOptions") as HTMLDivElement);
+const codeMirrorEditorObj = new CodeMirrorEditorObj(codeMirrorDivElem, navBarEditorToolsOptionsElem);
 const tuiEditorObj = new TUIEditorObj(tuiEditorDivElem);
 const spreadsheetEditorObj = new SpreadsheetEditorObj(spreadsheetEditorDivElem);
 
-const allEditorObjs: Record<string, Editor> = {
-    codemirror: codeMirrorEditorObj,
-    tui: tuiEditorObj,
-    spreadsheet: spreadsheetEditorObj,
+const allEditorObjs: { [key in EditorType]: Editor} = {
+    "A": codeMirrorEditorObj,
+    "B": tuiEditorObj,
+    "C": spreadsheetEditorObj,   
 }
 
 var activeEditorObj: Editor;
-activeEditorObj = setEditorMode(allEditorObjs, null, editorSelectorElem.value, initialCodeStr);
+activeEditorObj = setEditorMode(allEditorObjs, null, (editorSelectorElem.value as EditorType), initialCodeStr);
 editorSelectorElem.addEventListener('change', (event) => {
-    const shortEditorSelect = (event.target as HTMLInputElement).value;
+    const shortEditorSelect = ((event.target as HTMLInputElement).value as EditorType);
     activeEditorObj = setEditorMode(allEditorObjs, activeEditorObj, shortEditorSelect, "")
 });
 
@@ -208,7 +209,7 @@ decryptPasswordBtn.addEventListener('click', function(){
     try{
         initialCodeStr = decryptAndDecompress(payload.slice(3), passwordStr);
         hideModal(decryptPasswordModalContainer);
-        setEditorMode(allEditorObjs, activeEditorObj, editorSelectorElem.value, initialCodeStr);
+        setEditorMode(allEditorObjs, activeEditorObj, (editorSelectorElem.value as EditorType), initialCodeStr);
     } catch (err) {
         decryptPasswordBtn.classList.add('is-danger');
         decryptPasswordBtn.innerHTML = "Wrong password! Could not decrypt";

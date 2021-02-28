@@ -4,7 +4,7 @@ import google from 'google'
 
 export function initialiseGoogleChart(chartElem){
     google.charts.load('current', {packages: ['corechart', 'bar']});
-    google.charts.setOnLoadCallback(()=>{ drawCompressionStatsChart(chartElem, 0, 0, 0, 0) });
+    // google.charts.setOnLoadCallback(()=>{ drawCompressionStatsChart(chartElem, 0, 0, 0, 0) });
 }
 
 export function drawCompressionStatsChart(

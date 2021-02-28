@@ -1,4 +1,4 @@
-import { modeInfo, typeInfo } from "./editorconfigs";
+import { modeInfo, typeInfo } from "./editors/editorconfigs";
 
 export function loadScript(src: string) {
     return new Promise(function (resolve, reject) {

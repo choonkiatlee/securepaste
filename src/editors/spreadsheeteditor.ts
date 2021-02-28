@@ -1,10 +1,11 @@
 import { Editor } from "./index";
 import Spreadsheet, { Options } from "x-data-spreadsheet";
+import { EditorType } from "./editorconfigs";
 
 
 export class SpreadsheetEditorObj implements Editor {
     spreadsheetDivElem: HTMLElement;
-    name: string = "spreadsheet";
+    type: EditorType = EditorType.SPREADSHEET;
     spreadsheet: Spreadsheet | null = null;
 
     constructor(spreadsheetDivElem: HTMLElement){

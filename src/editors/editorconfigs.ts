@@ -171,7 +171,7 @@ export const modeInfo: Record<string, modeInfoSingle> = {
     "Cb":{name:"xu",mode: "mscgen"},
     "Cc":{name:"msgenny",mode: "mscgen"},
     "Cd":{name:"WebAssembly",mode: "wast"},
-    // "Ce":{name:"Markdown",mode: "markdown"},
+    "Ce":{name:"Markdown",mode: "markdown"},
     // "Cf":{name:"Spreadsheet",mode: "spreadsheet"},
 };
 

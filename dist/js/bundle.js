@@ -2744,7 +2744,7 @@ var __webpack_exports__ = {};
 (() => {
 "use strict";
 
-;// CONCATENATED MODULE: ./src/editorconfigs.ts
+;// CONCATENATED MODULE: ./src/editors/editorconfigs.ts
 var EditorType;
 (function (EditorType) {
     EditorType["CODE"] = "A";
@@ -2912,6 +2912,7 @@ var modeInfo = {
     "Cb": { name: "xu", mode: "mscgen" },
     "Cc": { name: "msgenny", mode: "mscgen" },
     "Cd": { name: "WebAssembly", mode: "wast" },
+    "Ce": { name: "Markdown", mode: "markdown" },
 };
 var typeInfo = {
     "A": { name: "Code" },
@@ -3047,13 +3048,14 @@ var external_CodeMirror_default = /*#__PURE__*/__webpack_require__.n(external_Co
 
 
 var CodeMirrorEditorObj = /** @class */ (function () {
-    function CodeMirrorEditorObj(divElem) {
+    function CodeMirrorEditorObj(divElem, toolBarDivElem) {
         this.initialised = false;
-        this.name = "codemirror";
+        this.type = EditorType.CODE;
         this.editor = null;
         this.divElem = divElem;
-        this.createModeSelector();
-        this.divElem.hidden = true;
+        createTextArea(divElem);
+        this.toolBarNewElems = this.createExtraToolBarItems(toolBarDivElem);
+        this.hide();
     }
     CodeMirrorEditorObj.prototype.initialise = function (initialCodeStr) {
         var config = {
@@ -3061,26 +3063,22 @@ var CodeMirrorEditorObj = /** @class */ (function () {
         };
         var textAreaElem = document.getElementById("textAreaElem");
         this.editor = external_CodeMirror_default().fromTextArea(textAreaElem, config);
+        this.editor.setSize(null, "80vh");
         this.setEditorTheme("cobalt");
         this.setData(initialCodeStr);
         this.show();
-        // (document.getElementsByClassName('CodeMirror')[0] as HTMLElement).style.height = "100%";
     };
     CodeMirrorEditorObj.prototype.hide = function () {
-        if (this.editor == null) {
-            throw new Error("Editor Not Initialised Yet.");
-        }
         // const wrapperElem = this.editor.getWrapperElement();
         // wrapperElem.hidden = true;
         this.divElem.hidden = true;
+        this.toolBarNewElems.hidden = true;
     };
     CodeMirrorEditorObj.prototype.show = function () {
-        if (this.editor == null) {
-            throw new Error("Editor Not Initialised Yet.");
-        }
         // const wrapperElem = this.editor.getWrapperElement();
         // wrapperElem.hidden = false;
         this.divElem.hidden = false;
+        this.toolBarNewElems.hidden = false;
     };
     CodeMirrorEditorObj.prototype.isHidden = function () {
         if (this.editor == null) {
@@ -3108,9 +3106,14 @@ var CodeMirrorEditorObj = /** @class */ (function () {
         var mode = modeInfo[shortmode]["mode"];
         loadScript("./codemirror/mode/" + mode + "/" + mode + ".js").then(function () { var _a; (_a = _this.editor) === null || _a === void 0 ? void 0 : _a.setOption("mode", mode); }, function () { alert("failed"); });
     };
-    CodeMirrorEditorObj.prototype.createModeSelector = function () {
+    CodeMirrorEditorObj.prototype.createExtraToolBarItems = function (toolBarDivElem) {
         var _this = this;
-        this.divElem.innerHTML = "\n        <div class=\"field is-horizontal\">\n            <div class=\"field-body\">\n                <div class=\"field\">\n                    <label class=\"label\">Language Selector</label>\n                    <p class=\"control is-expanded\">\n                        <span class=\"select is-fullwidth\">\n                            <select id=\"langSelector\">\n                            </select>\n                        </span>\n                    </p>\n                </div>\n            </div>\n        </div>\n        <textarea id=\"textAreaElem\" hidden='true'></textarea>\n        ";
+        var wrapperElem = document.createElement("div");
+        var newNavElem = document.createElement("div");
+        newNavElem.classList.add("navbar-item");
+        newNavElem.innerHTML = "\n            <div class=\"field is-horizontal\">\n                <div class=\"field-body\">\n                    <div class=\"field\">\n                        <label class=\"label\">Language Selector</label>\n                        <p class=\"control is-expanded\">\n                            <span class=\"select is-fullwidth\">\n                                <select id=\"langSelector\">\n                                </select>\n                            </span>\n                        </p>\n                    </div>\n                </div>\n            </div>\n        ";
+        wrapperElem.appendChild(newNavElem);
+        toolBarDivElem.appendChild(wrapperElem);
         var langSelectElem = document.getElementById("langSelector");
         setCodeMirrorSelectOptions(langSelectElem);
         var self = this;
@@ -3119,10 +3122,14 @@ var CodeMirrorEditorObj = /** @class */ (function () {
             console.log(langSelect, modeInfo, modeInfo[langSelect]);
             _this.setEditorMode(langSelect);
         });
+        return wrapperElem;
     };
     return CodeMirrorEditorObj;
 }());
 
+function createTextArea(divElem) {
+    divElem.innerHTML = "\n        <textarea id=\"textAreaElem\" hidden='true'></textarea>\n        ";
+}
 
 ;// CONCATENATED MODULE: external "katex"
 const external_katex_namespaceObject = katex;
@@ -3190,9 +3197,10 @@ function registerTUIKatexBtn(tuiEditor){
 ;// CONCATENATED MODULE: ./src/editors/tuicodeeditor.ts
 
 
+
 var TUIEditorObj = /** @class */ (function () {
     function TUIEditorObj(tuiDivElem) {
-        this.name = "tui";
+        this.type = EditorType.MARKDOWN;
         this.editor = null;
         this.tuiDivElem = tuiDivElem;
     }
@@ -12271,9 +12279,10 @@ if (window) {
 
 ;// CONCATENATED MODULE: ./src/editors/spreadsheeteditor.ts
 
+
 var SpreadsheetEditorObj = /** @class */ (function () {
     function SpreadsheetEditorObj(spreadsheetDivElem) {
-        this.name = "spreadsheet";
+        this.type = EditorType.SPREADSHEET;
         this.spreadsheet = null;
         this.spreadsheetDivElem = spreadsheetDivElem;
     }
@@ -12339,68 +12348,20 @@ var SpreadsheetEditorObj = /** @class */ (function () {
 
 
 
-
 function setEditorMode(allEditorObjs, activeEditorObj, shortEditorSelect, initialCodeStr) {
     if (initialCodeStr === void 0) { initialCodeStr = ""; }
-    if (shortEditorSelect == EditorType.MARKDOWN) { // Markdown
-        var data = initialCodeStr;
-        if (activeEditorObj != null && activeEditorObj.name != "tui" && initialCodeStr.length == 0) {
-            var currentData = hideEditorAndGetData(activeEditorObj);
-            data = currentData ? currentData : initialCodeStr;
-        }
-        ;
-        var tuiEditorObj = allEditorObjs["tui"];
-        if (!tuiEditorObj.isInitialised()) {
-            tuiEditorObj.initialise(data);
-        }
-        tuiEditorObj.show();
-        tuiEditorObj.setData(data);
-        return tuiEditorObj;
+    var data = initialCodeStr;
+    if (activeEditorObj != null && activeEditorObj.type != shortEditorSelect && initialCodeStr.length == 0) {
+        var currentData = hideEditorAndGetData(activeEditorObj);
+        data = currentData ? currentData : initialCodeStr;
     }
-    else if (shortEditorSelect == EditorType.SPREADSHEET) {
-        var data = initialCodeStr;
-        if (activeEditorObj != null && activeEditorObj.name != "spreadsheet" && initialCodeStr.length == 0) {
-            var currentData = hideEditorAndGetData(activeEditorObj);
-            data = currentData ? currentData : initialCodeStr;
-        }
-        var spreadsheetEditorObj = allEditorObjs["spreadsheet"];
-        if (!spreadsheetEditorObj.isInitialised()) {
-            spreadsheetEditorObj.initialise(data);
-        }
-        spreadsheetEditorObj.show();
-        spreadsheetEditorObj.setData(data);
-        return spreadsheetEditorObj;
-        // const tuiCalendarObj = allEditorObjs["tuical"]
-        // if (!tuiCalendarObj.isInitialised()){
-        //     tuiCalendarObj.initialise(initialCodeStr);
-        // }
-        // tuiCalendarObj.show();
-        // return tuiCalendarObj;
+    var newEditorObj = allEditorObjs[shortEditorSelect];
+    if (!newEditorObj.isInitialised()) {
+        newEditorObj.initialise(data);
     }
-    else if (shortEditorSelect == EditorType.CODE) {
-        var data = initialCodeStr;
-        if (activeEditorObj != null && activeEditorObj.name != "codemirror" && initialCodeStr.length == 0) {
-            data = hideEditorAndGetData(activeEditorObj);
-        }
-        ;
-        var codeMirrorEditorObj = allEditorObjs["codemirror"];
-        if (!codeMirrorEditorObj.isInitialised()) {
-            codeMirrorEditorObj.initialise(initialCodeStr);
-        }
-        else {
-            if (codeMirrorEditorObj.isHidden()) {
-                codeMirrorEditorObj.show();
-            }
-        }
-        if (data.length > 0) {
-            codeMirrorEditorObj.setData(data);
-        }
-        // codeMirrorEditorObj.setEditorMode(shortEditorSelect);
-        return codeMirrorEditorObj;
-    }
-    else {
-        throw new Error("No Active Editor Object");
-    }
+    newEditorObj.show();
+    newEditorObj.setData(data);
+    return newEditorObj;
 }
 function hideEditorAndGetData(editorObj) {
     var data = "";
@@ -12422,7 +12383,7 @@ var external_google_default = /*#__PURE__*/__webpack_require__.n(external_google
 
 function initialiseGoogleChart(chartElem){
     external_google_default().charts.load('current', {packages: ['corechart', 'bar']});
-    external_google_default().charts.setOnLoadCallback(()=>{ drawCompressionStatsChart(chartElem, 0, 0, 0, 0) });
+    // google.charts.setOnLoadCallback(()=>{ drawCompressionStatsChart(chartElem, 0, 0, 0, 0) });
 }
 
 function drawCompressionStatsChart(
@@ -12569,13 +12530,14 @@ editorSelectorElem.value = initialShortEditorSelect;
 var codeMirrorDivElem = document.getElementById("codeMirrorDivElem");
 var tuiEditorDivElem = document.getElementById("tuiEditorDivElem");
 var spreadsheetEditorDivElem = document.getElementById("spreadsheetDivElem");
-var codeMirrorEditorObj = new CodeMirrorEditorObj(codeMirrorDivElem);
+var navBarEditorToolsOptionsElem = document.getElementById("navBarEditorToolsOptions");
+var codeMirrorEditorObj = new CodeMirrorEditorObj(codeMirrorDivElem, navBarEditorToolsOptionsElem);
 var tuiEditorObj = new TUIEditorObj(tuiEditorDivElem);
 var spreadsheetEditorObj = new SpreadsheetEditorObj(spreadsheetEditorDivElem);
 var allEditorObjs = {
-    codemirror: codeMirrorEditorObj,
-    tui: tuiEditorObj,
-    spreadsheet: spreadsheetEditorObj,
+    "A": codeMirrorEditorObj,
+    "B": tuiEditorObj,
+    "C": spreadsheetEditorObj,
 };
 var activeEditorObj;
 activeEditorObj = setEditorMode(allEditorObjs, null, editorSelectorElem.value, initialCodeStr);

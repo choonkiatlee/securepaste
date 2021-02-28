@@ -1,21 +1,23 @@
 import { Editor } from "../editors";
 import { loadStyleSheet, loadScript, setEditorSelectOptions } from "../utils";
 import CodeMirror from "codemirror";
-import { modeInfo } from "../editorconfigs";
+import { EditorType, modeInfo } from "./editorconfigs";
 import { setCodeMirrorSelectOptions } from "../utils";
 
 
 
 export class CodeMirrorEditorObj implements Editor {
     initialised: boolean = false;
-    name: string = "codemirror";
+    type: EditorType = EditorType.CODE;
     editor: CodeMirror.Editor | null = null;
     divElem: HTMLDivElement;
+    toolBarNewElems: HTMLDivElement;
 
-    constructor(divElem: HTMLDivElement){
+    constructor(divElem: HTMLDivElement, toolBarDivElem: HTMLDivElement){
         this.divElem = divElem;
-        this.createModeSelector();
-        this.divElem.hidden = true;
+        createTextArea(divElem);
+        this.toolBarNewElems = this.createExtraToolBarItems(toolBarDivElem);
+        this.hide();
     }
 
     initialise(initialCodeStr: string){
@@ -24,28 +26,24 @@ export class CodeMirrorEditorObj implements Editor {
         }
         const textAreaElem = (document.getElementById("textAreaElem") as HTMLTextAreaElement);
         this.editor = CodeMirror.fromTextArea(textAreaElem, config);
+        this.editor.setSize(null, "80vh");
         this.setEditorTheme("cobalt");
         this.setData(initialCodeStr);
         this.show();
-        // (document.getElementsByClassName('CodeMirror')[0] as HTMLElement).style.height = "100%";
     }
 
     hide(){
-        if(this.editor == null){
-            throw new Error("Editor Not Initialised Yet.")
-        }
         // const wrapperElem = this.editor.getWrapperElement();
         // wrapperElem.hidden = true;
         this.divElem.hidden = true;
+        this.toolBarNewElems.hidden = true;
     }
 
     show(){
-        if(this.editor == null){
-            throw new Error("Editor Not Initialised Yet.")
-        }
         // const wrapperElem = this.editor.getWrapperElement();
         // wrapperElem.hidden = false;
         this.divElem.hidden = false;
+        this.toolBarNewElems.hidden = false;
     }
 
     isHidden(){
@@ -81,32 +79,42 @@ export class CodeMirrorEditorObj implements Editor {
         )
     }
 
-    createModeSelector(){
-        this.divElem.innerHTML = `
-        <div class="field is-horizontal">
-            <div class="field-body">
-                <div class="field">
-                    <label class="label">Language Selector</label>
-                    <p class="control is-expanded">
-                        <span class="select is-fullwidth">
-                            <select id="langSelector">
-                            </select>
-                        </span>
-                    </p>
+    createExtraToolBarItems(toolBarDivElem: HTMLDivElement){
+        const wrapperElem = document.createElement("div");
+        const newNavElem = document.createElement("div");
+        newNavElem.classList.add("navbar-item");
+        newNavElem.innerHTML = `
+            <div class="field is-horizontal">
+                <div class="field-body">
+                    <div class="field">
+                        <label class="label">Language Selector</label>
+                        <p class="control is-expanded">
+                            <span class="select is-fullwidth">
+                                <select id="langSelector">
+                                </select>
+                            </span>
+                        </p>
+                    </div>
                 </div>
             </div>
-        </div>
-        <textarea id="textAreaElem" hidden='true'></textarea>
         `;
+        wrapperElem.appendChild(newNavElem);
+        toolBarDivElem.appendChild(wrapperElem);
         const langSelectElem = (document.getElementById("langSelector") as HTMLSelectElement);
-        setCodeMirrorSelectOptions(langSelectElem);
-        
+            setCodeMirrorSelectOptions(langSelectElem);
+
         var self = this;
         langSelectElem.addEventListener("change", (event) => {
             const langSelect = (event.target as HTMLInputElement).value;
             console.log(langSelect, modeInfo, modeInfo[langSelect]);
             this.setEditorMode(langSelect);
-        });      
-        
+        });
+        return wrapperElem;
     }
+}
+
+function createTextArea(divElem: HTMLDivElement){
+    divElem.innerHTML = `
+        <textarea id="textAreaElem" hidden='true'></textarea>
+        `;
 }

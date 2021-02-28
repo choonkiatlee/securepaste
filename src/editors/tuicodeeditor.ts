@@ -1,12 +1,12 @@
 import { Editor } from "../editors";
 import { loadStyleSheet, loadScript, isSmallScreen } from "../utils";
-import { modeInfo } from "../editorconfigs";
+import { EditorType, modeInfo } from "./editorconfigs";
 import toastuiEditor from "@toast-ui/editor";
 import {registerTUIKatexBtn, katexPlugin } from "./katexPlugin";
 
 export class TUIEditorObj implements Editor {
     tuiDivElem: HTMLDivElement;
-    name: string = "tui";
+    type: EditorType = EditorType.MARKDOWN;
     editor: toastui.Editor | null = null;
 
     constructor(tuiDivElem: HTMLDivElement){

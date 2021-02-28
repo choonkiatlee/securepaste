@@ -134,3 +134,53 @@ export class TUICalendarObj implements Editor {
         // return this.editor?.setMarkdown(data);
     }
 }
+
+
+
+if (shortEditorSelect == EditorType.MARKDOWN){   // Markdown
+    var data = initialCodeStr;
+    if (activeEditorObj != null && activeEditorObj.name != "tui" && initialCodeStr.length == 0){
+        const currentData = hideEditorAndGetData(activeEditorObj);
+        data = currentData ? currentData : initialCodeStr;
+    };
+    const tuiEditorObj = allEditorObjs["tui"]
+    if (!tuiEditorObj.isInitialised()){
+        tuiEditorObj.initialise(data);
+    }
+    tuiEditorObj.show();
+    tuiEditorObj.setData(data);
+    return tuiEditorObj;
+} else if (shortEditorSelect == EditorType.SPREADSHEET){
+    var data = initialCodeStr;
+    if (activeEditorObj != null && activeEditorObj.name != "spreadsheet" && initialCodeStr.length == 0){
+        const currentData = hideEditorAndGetData(activeEditorObj);
+        data = currentData ? currentData : initialCodeStr
+    }
+    const spreadsheetEditorObj = allEditorObjs["spreadsheet"];
+    if (!spreadsheetEditorObj.isInitialised()){
+        spreadsheetEditorObj.initialise(data);
+    }
+    spreadsheetEditorObj.show();
+    spreadsheetEditorObj.setData(data);
+    return spreadsheetEditorObj;        
+} else if (shortEditorSelect == EditorType.CODE){
+    var data = initialCodeStr;
+    if (activeEditorObj != null && activeEditorObj.name != "codemirror" && initialCodeStr.length == 0){
+        data = hideEditorAndGetData(activeEditorObj)
+    };
+    const codeMirrorEditorObj: CodeMirrorEditorObj = (allEditorObjs["codemirror"] as CodeMirrorEditorObj);
+    if (!codeMirrorEditorObj.isInitialised()){
+        codeMirrorEditorObj.initialise(initialCodeStr);
+    } else {
+        if (codeMirrorEditorObj.isHidden()){
+            codeMirrorEditorObj.show();
+        }
+    }
+    if (data.length > 0){
+        codeMirrorEditorObj.setData(data);
+    }
+    // codeMirrorEditorObj.setEditorMode(shortEditorSelect);
+    return codeMirrorEditorObj;
+} else {
+    throw new Error("No Active Editor Object")
+}
