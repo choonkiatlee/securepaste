@@ -1,2 +1,6 @@
 archive2/
 node_modules/
+ghpage/
+dist/
+_archive
+package-lock.json
